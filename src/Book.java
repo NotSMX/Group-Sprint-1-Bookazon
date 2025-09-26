@@ -53,13 +53,6 @@ public class Book {
         this.isPaperback = isPaperback;
     }
 
-    public void printBookDetails() {
-        System.out.println("Title: " + title);
-        System.out.println("Author: " + author);
-        System.out.println("Year Published: " + yearPublished);
-        System.out.println("Price: $" + price);
-    }
-
     public boolean isPriceValid() {
         return price > 0;
     }
