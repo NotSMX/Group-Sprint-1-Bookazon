@@ -62,6 +62,9 @@ public class Bookazon {
         bookazon.addBook(new Book("To Kill a Mockingbird", "Harper Lee", 1960, 7.99, false));
         bookazon.addBook(new Book("1984", "George Orwell", 1949, 8.99, true));
 
+        // view books
+        bookazon.viewBooks();
+
         // create users
         bookazon.addUser(new User("Alice", "normal"));
         bookazon.addUser(new User("Bob", "gold"));
