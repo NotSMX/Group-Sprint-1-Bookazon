@@ -59,20 +59,4 @@ public class Book {
         System.out.println("Year Published: " + yearPublished);
         System.out.println("Price: $" + price);
     }
-
-    public boolean isPriceValid() {
-        return price > 0;
-    }
-
-    public boolean isTitleValid() {
-        return title != null && !title.isEmpty();
-    }
-
-    public boolean isAuthorValid() {
-        return author != null && !author.isEmpty();
-    }
-
-    public boolean isYearPublishedValid() {
-        return yearPublished > 0;
-    }
 }

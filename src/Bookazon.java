@@ -25,6 +25,18 @@ public class Bookazon {
         }
     }
 
+    public void validateBooks() {
+        BookValidator validator = new BookValidator();
+        for (Book book : books) {
+            boolean priceValid = validator.isPriceValid(book);
+            boolean titleValid = validator.isTitleValid(book);
+            boolean authorValid = validator.isAuthorValid(book);
+            boolean yearValid = validator.isYearPublishedValid(book);
+            System.out.println(book.getTitle() + ": Price: " + priceValid + ", Title: " + titleValid + ", Author: " + authorValid + ", Year: " + yearValid);
+
+        }
+    }
+
     public void viewUsers() {
         for (User user : users) {
             System.out.println(user.getName() + " - Role: " + user.getSubscription());
@@ -60,6 +72,9 @@ public class Bookazon {
         bookazon.addBook(new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925, 9.99, true));
         bookazon.addBook(new Book("To Kill a Mockingbird", "Harper Lee", 1960, 7.99, false));
         bookazon.addBook(new Book("1984", "George Orwell", 1949, 8.99, true));
+
+        // validate books
+        bookazon.validateBooks();
 
         // create users
         bookazon.addUser(new User("Alice", "normal"));
