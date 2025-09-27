@@ -20,8 +20,9 @@ public class Bookazon {
     }
 
     public void viewBooks() {
+        PrintInfo printer = new PrintInfo();
         for (Book book : books) {
-            book.printBookDetails();
+            printer.printBookDetails(book);
         }
     }
 
@@ -73,6 +74,9 @@ public class Bookazon {
         bookazon.addBook(new Book("To Kill a Mockingbird", "Harper Lee", 1960, 7.99, false));
         bookazon.addBook(new Book("1984", "George Orwell", 1949, 8.99, true));
 
+        // view books
+        bookazon.viewBooks();
+      
         // validate books
         bookazon.validateBooks();
 
