@@ -21,7 +21,7 @@ public class Order {
     private double orderPrice;
 
     public Order(Cart cart, String subscription) {
-        this.items = new ArrayList<>(cart.getItems());
+        this.items = cart.getItems();
         this.orderPrice = calculatePrice(subscription);
     }
 
