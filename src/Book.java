@@ -52,20 +52,4 @@ public class Book {
     public void setPaperback(boolean isPaperback) {
         this.isPaperback = isPaperback;
     }
-
-    public boolean isPriceValid() {
-        return price > 0;
-    }
-
-    public boolean isTitleValid() {
-        return title != null && !title.isEmpty();
-    }
-
-    public boolean isAuthorValid() {
-        return author != null && !author.isEmpty();
-    }
-
-    public boolean isYearPublishedValid() {
-        return yearPublished > 0;
-    }
 }
