@@ -43,6 +43,20 @@ public class Bookazon {
         }
     }
 
+    public boolean validateBooksSilently() {
+        BookValidator validator = new BookValidator();
+        for (Book book : books) {
+            boolean ok =
+                validator.isPriceValid(book) &&
+                validator.isTitleValid(book) &&
+                validator.isAuthorValid(book) &&
+                validator.isYearPublishedValid(book) &&
+                validator.isTypeValid(book);
+            if (!ok) return false;
+        }
+        return true;
+    }
+
     public void viewUsers() {
         for (User user : users) {
             System.out.println(user.getName() + " - Role: " + user.getSubscription().level());
@@ -76,7 +90,6 @@ public class Bookazon {
     }
 
     public static void main(String[] args) {
-
         Bookazon bookazon = new Bookazon();
 
         bookazon.addBook(new Book(
@@ -103,9 +116,11 @@ public class Bookazon {
             new Paperback()
         ));
 
+
         bookazon.viewBooks();
 
-        bookazon.validateBooks();
+        boolean allValid = bookazon.validateBooksSilently();
+        assert allValid : "One or more books are invalid";
 
         bookazon.addUser(new CustomerUser("Alice", "normal"));
         bookazon.addUser(new CustomerUser("Bob", "gold"));
@@ -119,7 +134,6 @@ public class Bookazon {
         bookazon.users.get(0).setBillingAddress("456 Elm St", "", "Springfield", "IL", "62702", "USA");
 
         bookazon.users.get(0).checkout();
-
         bookazon.users.get(0).viewOrders();
 
         bookazon.viewUsers();
