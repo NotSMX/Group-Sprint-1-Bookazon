@@ -89,12 +89,6 @@ public class Order {
 
     private static String joinAddress(PostalAddress a) {
         if (a == null) return "null";
-        String line1 = a.getLine1() == null ? "" : a.getLine1();
-        String line2 = a.getLine2() == null ? "" : a.getLine2();
-        String city = a.getCity() == null ? "" : a.getCity();
-        String state = a.getState() == null ? "" : a.getState();
-        String zip = a.getZip() == null ? "" : a.getZip();
-        String country = a.getCountry() == null ? "" : a.getCountry();
-        return line1 + ", " + line2 + ", " + city + ", " + state + ", " + zip + ", " + country;
+        return a.toSingleLine();
     }
 }

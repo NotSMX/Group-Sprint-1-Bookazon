@@ -51,9 +51,15 @@ public class PostalAddress {
     }
 
     private static void appendSegment(StringBuilder sb, String segment) {
-        if (segment != null && !segment.isEmpty()) {
-            if (sb.length() > 0) sb.append(", ");
-            sb.append(segment);
-        }
+        if (segment == null) return;
+        String s = segment.trim();
+        if (s.isEmpty()) return;
+        if (sb.length() > 0) sb.append(", ");
+        sb.append(s);
+    }
+
+    @Override
+    public String toString() {
+        return toSingleLine();
     }
 }

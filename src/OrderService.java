@@ -1,40 +1,32 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class OrderService {
+    private static final DateTimeFormatter ISO_DATE = DateTimeFormatter.ISO_DATE;
+
     public Order createOrder(User user) {
-        // Create order with cart and subscription level
+        if (user == null) throw new IllegalArgumentException("user cannot be null");
+        if (user.getCart() == null) throw new IllegalStateException("user cart cannot be null");
+        if (user.getSubscription() == null) throw new IllegalStateException("user subscription cannot be null");
+
+    
         Order order = new Order(user.getCart(), user.getSubscription().level());
 
-        PostalAddress shippingAddress = user.getShippingAddress();
-        PostalAddress billingAddress = user.getBillingAddress();
-
-        // Set shipping address if available
-        if (shippingAddress != null) {
-            order.setShippingAddress(
-                shippingAddress.getLine1(), 
-                shippingAddress.getLine2(), 
-                shippingAddress.getCity(),
-                shippingAddress.getState(), 
-                shippingAddress.getZip(), 
-                shippingAddress.getCountry()
-            );
+        PostalAddress ship = user.getShippingAddress();
+        if (ship != null) {
+            order.setShippingAddress(ship);
         }
-        
-        // Set billing address if available
-        if (billingAddress != null) {
-            order.setBillingAddress(
-                billingAddress.getLine1(), 
-                billingAddress.getLine2(), 
-                billingAddress.getCity(),
-                billingAddress.getState(), 
-                billingAddress.getZip(), 
-                billingAddress.getCountry()
-            );
+
+        PostalAddress bill = user.getBillingAddress();
+        if (bill != null) {
+            order.setBillingAddress(bill);
         }
 
         // Set order metadata
         order.setOrderStatus("Order Placed");
-        order.setDateCreated(java.time.LocalDate.now().toString());
+        order.setDateCreated(LocalDate.now().format(ISO_DATE));
         order.setUserName(user.getName());
-        
+
         return order;
     }
 }
