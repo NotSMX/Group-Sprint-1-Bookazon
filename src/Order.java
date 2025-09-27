@@ -1,90 +1,100 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Order {
     private String dateCreated;
     private String dateShipped;
     private String userName;
     private String orderStatus;
-    private String shippingAddressLine1;
-    private String shippingAddressLine2;
-    private String shippingAddressCity;
-    private String shippingAddressState;
-    private String shippingAddressZip;
-    private String shippingAddressCountry;
-    private String billingAddressLine1;
-    private String billingAddressLine2;
-    private String billingAddressCity;
-    private String billingAddressState;
-    private String billingAddressZip;
-    private String billingAddressCountry;
-    private ArrayList<CartItem> items;
+
+    private PostalAddress shippingAddress;
+    private PostalAddress billingAddress;
+
+    private final ArrayList<CartItem> orderItems;
+
+    private String subscriptionLevel;
+    private final PricingPolicy pricingPolicy;
     private double orderPrice;
 
     public Order(Cart cart, String subscription) {
-        this.items = cart.getItems();
-        this.orderPrice = calculatePrice(subscription);
+        this(cart, Subscription.of(subscription), new DefaultPricingPolicy());
     }
+
+    public Order(Cart cart, Subscription subscription) {
+        this(cart, subscription, new DefaultPricingPolicy());
+    }
+
+    public Order(Cart cart, Subscription subscription, PricingPolicy pricingPolicy) {
+        this.orderItems = new ArrayList<>(cart.getItems());
+        this.pricingPolicy = pricingPolicy;
+        setSubscription(subscription);
+        recomputeTotals();
+    }
+
+    public void setShippingAddress(PostalAddress address) { this.shippingAddress = address; }
+    public void setBillingAddress(PostalAddress address)  { this.billingAddress  = address; }
 
     public void setShippingAddress(String line1, String line2, String city, String state, String zip, String country) {
-        this.shippingAddressLine1 = line1;
-        this.shippingAddressLine2 = line2;
-        this.shippingAddressCity = city;
-        this.shippingAddressState = state;
-        this.shippingAddressZip = zip;
-        this.shippingAddressCountry = country;
+        this.shippingAddress = new PostalAddress(line1, line2, city, state, zip, country);
     }
-
     public void setBillingAddress(String line1, String line2, String city, String state, String zip, String country) {
-        this.billingAddressLine1 = line1;
-        this.billingAddressLine2 = line2;
-        this.billingAddressCity = city;
-        this.billingAddressState = state;
-        this.billingAddressZip = zip;
-        this.billingAddressCountry = country;
+        this.billingAddress = new PostalAddress(line1, line2, city, state, zip, country);
     }
 
-    public void setOrderStatus(String status) {
-        this.orderStatus = status;
+    public void setOrderStatus(String status) { this.orderStatus = status; }
+    public void setDateCreated(String date)   { this.dateCreated = date; }
+    public void setDateShipped(String date)   { this.dateShipped = date; }
+    public void setUserName(String name)      { this.userName = name; }
+
+    public String getDateCreated() { return dateCreated; }
+    public String getDateShipped() { return dateShipped; }
+    public String getUserName()    { return userName; }
+    public String getOrderStatus() { return orderStatus; }
+    public PostalAddress getShippingAddress() { return shippingAddress; }
+    public PostalAddress getBillingAddress()  { return billingAddress; }
+    public List<CartItem> getItems() { return Collections.unmodifiableList(orderItems); }
+    public double getOrderPrice() { return orderPrice; }
+
+    private void setSubscription(Subscription subscription) {
+        Subscription effective = (subscription == null) ? Subscription.of("normal") : subscription;
+        this.subscriptionLevel = effective.level();
     }
 
-    public void setDateCreated(String date) {
-        this.dateCreated = date;
+    private void recomputeTotals() {
+        PricingPolicy.PricingResult r = pricingPolicy.price(orderItems, Subscription.of(subscriptionLevel));
+        this.orderPrice = r.total;
     }
 
-    public void setDateShipped(String date) {
-        this.dateShipped = date;
-    }
-
-    public void setUserName(String name) {
-        this.userName = name;
+    @Deprecated
+    public double calculatePrice(String subscription) {
+        PricingPolicy.PricingResult r = pricingPolicy.price(orderItems, Subscription.of(subscription));
+        return r.total;
     }
 
     public void printOrderDetails() {
         System.out.println("Order Details:");
-        System.out.println("Date Created: " + dateCreated);
-        System.out.println("Date Shipped: " + dateShipped);
-        System.out.println("User Name: " + userName);
-        System.out.println("Order Status: " + orderStatus);
-        System.out.println("Shipping Address: " + shippingAddressLine1 + ", " + shippingAddressLine2 + ", " + shippingAddressCity + ", " + shippingAddressState + ", " + shippingAddressZip + ", " + shippingAddressCountry);
-        System.out.println("Billing Address: " + billingAddressLine1 + ", " + billingAddressLine2 + ", " + billingAddressCity + ", " + billingAddressState + ", " + billingAddressZip + ", " + billingAddressCountry);
-        System.out.println("Order Price: $" + orderPrice);
+        System.out.println("Date Created: " + valueOrNull(dateCreated));
+        System.out.println("Date Shipped: " + valueOrNull(dateShipped));
+        System.out.println("User Name: " + valueOrNull(userName));
+        System.out.println("Order Status: " + valueOrNull(orderStatus));
+        System.out.println("Shipping Address: " + joinAddress(shippingAddress));
+        System.out.println("Billing Address: " + joinAddress(billingAddress));
+        System.out.println("Order Price: $" + String.format("%.2f", orderPrice));
     }
 
-    public double calculatePrice(String subscription) {
-        double totalPrice = 0.0;
+    private static String valueOrNull(String v) {
+        return v == null ? "null" : v;
+    }
 
-        for (CartItem item : items) {
-            totalPrice += item.getTotalPrice();
-        }
-
-        if (subscription == "gold") {
-            totalPrice *= 0.15; // 15% discount for prime members
-        } else if (subscription == "platinum") {
-            totalPrice *= 0.10; // 10% discount for platinum members
-        } else if (subscription == "silver") {
-            totalPrice *= 0.05; // 5% discount for silver members
-        } 
-
-        return totalPrice;
+    private static String joinAddress(PostalAddress a) {
+        if (a == null) return "null";
+        String line1 = a.getLine1() == null ? "" : a.getLine1();
+        String line2 = a.getLine2() == null ? "" : a.getLine2();
+        String city = a.getCity() == null ? "" : a.getCity();
+        String state = a.getState() == null ? "" : a.getState();
+        String zip = a.getZip() == null ? "" : a.getZip();
+        String country = a.getCountry() == null ? "" : a.getCountry();
+        return line1 + ", " + line2 + ", " + city + ", " + state + ", " + zip + ", " + country;
     }
 }
