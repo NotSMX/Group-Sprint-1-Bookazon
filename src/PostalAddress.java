@@ -22,7 +22,6 @@ public class PostalAddress {
     public String zip()     { return zip; }
     public String country() { return country; }
 
-    // Bean-style getters
     public String getLine1(){ return line1; }
     public String getLine2(){ return line2; }
     public String getCity(){ return city; }
