@@ -3,7 +3,6 @@ public class OrderService {
         // Create order with cart and subscription level
         Order order = new Order(user.getCart(), user.getSubscription().level());
 
-        // Get addresses with proper typing
         PostalAddress shippingAddress = user.getShippingAddress();
         PostalAddress billingAddress = user.getBillingAddress();
 
@@ -33,7 +32,7 @@ public class OrderService {
 
         // Set order metadata
         order.setOrderStatus("Order Placed");
-        order.setDateCreated(java.time.LocalDate.now().toString()); // Use current date
+        order.setDateCreated(java.time.LocalDate.now().toString());
         order.setUserName(user.getName());
         
         return order;
