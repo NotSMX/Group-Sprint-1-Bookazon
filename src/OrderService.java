@@ -1,12 +1,10 @@
 public class OrderService {
     public Order createOrder(User user) {
-        // Create order with cart and subscription level
         Order order = new Order(user.getCart(), user.getSubscription().level());
 
         PostalAddress shippingAddress = user.getShippingAddress();
         PostalAddress billingAddress = user.getBillingAddress();
 
-        // Set shipping address if available
         if (shippingAddress != null) {
             order.setShippingAddress(
                 shippingAddress.getLine1(), 
@@ -18,7 +16,6 @@ public class OrderService {
             );
         }
         
-        // Set billing address if available
         if (billingAddress != null) {
             order.setBillingAddress(
                 billingAddress.getLine1(), 
