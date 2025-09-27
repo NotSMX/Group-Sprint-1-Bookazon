@@ -1,55 +1,55 @@
 public class Book {
-    private String title;
-    private String author;
-    private int yearPublished;
-    private double price;
-    private boolean isPaperback;  // true if the book is paperback, false if it is hardcover
+    private Title title;
+    private Author author;
+    private YearPublished yearPublished;
+    private Price price;
+    private BookType type;
 
-    public Book(String title, String author, int yearPublished, double price, boolean isPaperback) {
+    public Book(Title title, Author author, YearPublished yearPublished, Price price, BookType type) {
         this.title = title;
         this.author = author;
         this.yearPublished = yearPublished;
         this.price = price;
-        this.isPaperback = isPaperback;
+        this.type = type;
     }
 
-    public String getTitle() {
+    public Title getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(Title title) {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
-    public int getYearPublished() {
+    public YearPublished getYearPublished() {
         return yearPublished;
     }
 
-    public void setYearPublished(int yearPublished) {
+    public void setYearPublished(YearPublished yearPublished) {
         this.yearPublished = yearPublished;
     }
 
-    public double getPrice() {
+    public Price getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Price price) {
         this.price = price;
     }
 
-    public boolean isPaperback() {
-        return isPaperback;
+    public BookType getType() {
+        return type;
     }
 
-    public void setPaperback(boolean isPaperback) {
-        this.isPaperback = isPaperback;
+    public void setType(BookType type) {
+        this.type = type;
     }
 }

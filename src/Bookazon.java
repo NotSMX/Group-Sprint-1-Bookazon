@@ -34,7 +34,7 @@ public class Bookazon {
             boolean titleValid = validator.isTitleValid(book);
             boolean authorValid = validator.isAuthorValid(book);
             boolean yearValid = validator.isYearPublishedValid(book);
-            System.out.println(book.getTitle() + ": Price: " + priceValid + ", Title: " + titleValid + ", Author: " + authorValid + ", Year: " + yearValid);
+            System.out.println(book.getTitle().getValue() + ": Price: " + priceValid + ", Title: " + titleValid + ", Author: " + authorValid + ", Year: " + yearValid);
 
         }
     }
@@ -53,12 +53,12 @@ public class Bookazon {
         users.remove(user);
     }
 
-    public void updateBookDetails(Book book, String newTitle, String newAuthor, int newYearPublished, double newPrice, boolean isPaperback) {
+    public void updateBookDetails(Book book, Title newTitle, Author newAuthor, YearPublished newYearPublished, Price newPrice, BookType type) {
         book.setTitle(newTitle);
         book.setAuthor(newAuthor);
         book.setYearPublished(newYearPublished);
         book.setPrice(newPrice);
-        book.setPaperback(isPaperback);
+        book.setType(type);
     }
 
     public void updateRole(User user, String role) {
@@ -71,9 +71,9 @@ public class Bookazon {
         Bookazon bookazon = new Bookazon();
         
         // create books
-        bookazon.addBook(new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925, 9.99, true));
-        bookazon.addBook(new Book("To Kill a Mockingbird", "Harper Lee", 1960, 7.99, false));
-        bookazon.addBook(new Book("1984", "George Orwell", 1949, 8.99, true));
+        bookazon.addBook(new Book(new Title("The Great Gatsby"), new Author("F. Scott Fitzgerald"), new YearPublished(1925), new Price(9.99), new Paperback()));
+        bookazon.addBook(new Book(new Title("To Kill a Mockingbird"), new Author("Harper Lee"), new YearPublished(1960), new Price(7.99), new Hardcover()));
+        bookazon.addBook(new Book(new Title("1984"), new Author("George Orwell"), new YearPublished(1949), new Price(8.99), new Paperback()));
 
         // view books
         bookazon.viewBooks();
