@@ -1,93 +1,74 @@
-
 import java.util.ArrayList;
 
-public class User {
+public abstract class User {
     private String name;
-    private String subscription;
-    private Cart cart;
-    private ArrayList<Order> orders;
-    private String shippingAddressLine1;
-    private String shippingAddressLine2;
-    private String shippingAddressCity;
-    private String shippingAddressState;
-    private String shippingAddressZip;
-    private String shippingAddressCountry;
-    private String billingAddressLine1;
-    private String billingAddressLine2;
-    private String billingAddressCity;
-    private String billingAddressState;
-    private String billingAddressZip;
-    private String billingAddressCountry;
+    private Subscription subscription;
+    private final Cart cart;
+    private final ArrayList<Order> orders;
 
-    public User(String name, String subscription) {
+    private PostalAddress shippingAddress;
+    private PostalAddress billingAddress;
+
+    protected User(String name, String subscription) {
         this.name = name;
-        this.subscription = subscription;  // normal, gold, platinum, silver membership
+        this.subscription = Subscription.of(subscription);
         this.cart = new Cart();
         this.orders = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public Subscription getSubscription() { return subscription; }
+    public void setSubscription(String level) { this.subscription = Subscription.of(level); }
+
+    public PostalAddress getShippingAddress() { return shippingAddress; }
+    public PostalAddress getBillingAddress()  { return billingAddress; }
+
+    public void setShippingAddress(PostalAddress addr) { this.shippingAddress = addr; }
+    public void setBillingAddress(PostalAddress addr)  { this.billingAddress = addr; }
+
+    public void setShippingAddress(String l1, String l2, String city, String state, String zip, String country) {
+        setShippingAddress(new PostalAddress(l1, l2, city, state, zip, country));
+    }
+    public void setBillingAddress(String l1, String l2, String city, String state, String zip, String country) {
+        setBillingAddress(new PostalAddress(l1, l2, city, state, zip, country));
     }
 
-    public String getSubscription() {
-        return subscription;
+    public Cart getCart() { return cart; }
+
+    public void addToCart(Book book, int quantity) {
+        if (book != null && quantity > 0) {
+            cart.addItem(new CartItem(book.getTitle().getValue(), book.getPrice().getValue(), quantity));
+        }
     }
 
-    public void setSubscription(String role) {
-        this.subscription = role;
+    public void removeFromCart(Book book) {
+        if (book != null) {
+            cart.removeByProductName(book.getTitle().getValue());
+        }
     }
 
     public void viewCart() {
         cart.viewCartDetails();
     }
 
-    public void setShippingAddress(String line1, String line2, String city, String state, String zip, String country) {
-        this.shippingAddressLine1 = line1;
-        this.shippingAddressLine2 = line2;
-        this.shippingAddressCity = city;
-        this.shippingAddressState = state;
-        this.shippingAddressZip = zip;
-        this.shippingAddressCountry = country;
-    }
-
-    public void setBillingAddress(String line1, String line2, String city, String state, String zip, String country) {
-        this.billingAddressLine1 = line1;
-        this.billingAddressLine2 = line2;
-        this.billingAddressCity = city;
-        this.billingAddressState = state;
-        this.billingAddressZip = zip;
-        this.billingAddressCountry = country;
-    }
-
-    public void addToCart(Book book, int quantity) {
-        cart.addItem(new CartItem(book.getTitle().getValue(), book.getPrice().getValue(), quantity));
-    }
-
-    public void removeFromCart(Book book) {
-        for (CartItem item : cart.getItems()) {
-            if (item.getName().equals(book.getTitle())) {
-                cart.getItems().remove(item);
-                break;
-            }
-        }
-    }
-
     public void viewOrders() {
+        if (orders.isEmpty()) {
+            System.out.println("No orders found.");
+            return;
+        }
         for (Order order : orders) {
             order.printOrderDetails();
         }
     }
 
-    public void checkout() {
-        Order order = new Order(cart, this.subscription);
-        order.setShippingAddress("123 Main St", "", "Springfield", "IL", "62701", "USA");
-        order.setBillingAddress("123 Main St", "", "Springfield", "IL", "62701", "USA");
-        order.setOrderStatus("Order Placed");
-        order.setDateCreated("2024-01-01");
-        order.setUserName(this.name);
+    public final void checkout() {
+        OrderService service = new OrderService();
+        Order order = service.createOrder(this);
         orders.add(order);
+        onOrderPlaced(order);
     }
+
+    protected void onOrderPlaced(Order order) { }
 }
-
-
