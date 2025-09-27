@@ -20,9 +20,10 @@ public class Bookazon {
     }
 
     public void viewBooks() {
-        PrintInfo printer = new PrintInfo();
+        BookDetails details = new BookDetails();
         for (Book book : books) {
-            printer.printBookDetails(book);
+            String info = details.bookDetails(book);
+            System.out.println(info);
         }
     }
 
