@@ -61,7 +61,7 @@ public class User {
     }
 
     public void addToCart(Book book, int quantity) {
-        cart.addItem(new CartItem(book.getTitle(), book.getPrice(), quantity));
+        cart.addItem(new CartItem(book.getTitle().getValue(), book.getPrice().getValue(), quantity));
     }
 
     public void removeFromCart(Book book) {
