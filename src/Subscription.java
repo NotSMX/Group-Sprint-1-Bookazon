@@ -10,7 +10,7 @@ public class Subscription {
     );
 
     private final String level;     // normalized lower-case
-    private final double discount;  // e.g., 0.15 = 15%
+    private final double discount;
 
     private Subscription(String level, double discount) {
         this.level = level;
