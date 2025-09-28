@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 
 public class Bookazon {
@@ -19,10 +20,9 @@ public class Bookazon {
     }
 
     public java.util.List<String> viewBooks() {
-        BookDetails details = new BookDetails();
         java.util.List<String> lines = new java.util.ArrayList<>();
         for (Book book : books) {
-        lines.add(details.bookDetails(book));
+            lines.add(book.getDetails().toString());
         }
         return lines;
     }
@@ -30,16 +30,17 @@ public class Bookazon {
     public void validateBooks() {
         BookValidator validator = new BookValidator();
         for (Book book : books) {
-            boolean priceValid = validator.isPriceValid(book);
-            boolean titleValid = validator.isTitleValid(book);
-            boolean authorValid = validator.isAuthorValid(book);
-            boolean yearValid = validator.isYearPublishedValid(book);
+            BookDetails details = book.getDetails();
+            boolean priceValid = validator.isPriceValid(details);
+            boolean titleValid = validator.isTitleValid(details);
+            boolean authorValid = validator.isAuthorValid(details);
+            boolean yearValid = validator.isYearPublishedValid(details);
             System.out.println(
-                book.getTitle().getValue()
-                + ": Price: " + priceValid
-                + ", Title: " + titleValid
-                + ", Author: " + authorValid
-                + ", Year: " + yearValid
+                    book.getDetails().getTitle()
+                    + ": Price: " + priceValid
+                    + ", Title: " + titleValid
+                    + ", Author: " + authorValid
+                    + ", Year: " + yearValid
             );
         }
     }
@@ -47,13 +48,11 @@ public class Bookazon {
     public boolean validateBooksSilently() {
         BookValidator validator = new BookValidator();
         for (Book book : books) {
-            boolean ok =
-                validator.isPriceValid(book) &&
-                validator.isTitleValid(book) &&
-                validator.isAuthorValid(book) &&
-                validator.isYearPublishedValid(book) &&
-                validator.isTypeValid(book);
-            if (!ok) return false;
+            BookDetails details = book.getDetails();
+            boolean ok = validator.isValid(details);
+            if (!ok) {
+                return false;
+            }
         }
         return true;
     }
@@ -74,7 +73,7 @@ public class Bookazon {
         users.remove(user);
     }
 
-    public void updateBookDetails(Book book, BookUpdate u) {
+    public void updateBookDetails(Book book, BookDetails u) {
         book.apply(u);
     }
 
@@ -86,33 +85,35 @@ public class Bookazon {
         Bookazon bookazon = new Bookazon();
 
         bookazon.addBook(new Book(
-            new Title("The Great Gatsby"),
-            new Author("F. Scott Fitzgerald"),
-            new YearPublished(1925),
-            new Price(9.99),
-            new Paperback()
+                new BookDetails(
+                        new Title("The Great Gatsby"),
+                        new Author("F. Scott Fitzgerald"),
+                        new YearPublished(1925),
+                        new Price(9.99),
+                        new Paperback())
         ));
 
         bookazon.addBook(new Book(
-            new Title("To Kill a Mockingbird"),
-            new Author("Harper Lee"),
-            new YearPublished(1960),
-            new Price(7.99),
-            new Hardcover()
-        ));
+                new BookDetails(
+                        new Title("To Kill a Mockingbird"),
+                        new Author("Harper Lee"),
+                        new YearPublished(1960),
+                        new Price(7.99),
+                        new Hardcover()
+                )));
 
         bookazon.addBook(new Book(
-            new Title("1984"),
-            new Author("George Orwell"),
-            new YearPublished(1949),
-            new Price(8.99),
-            new Paperback()
-        ));
+                new BookDetails(
+                        new Title("1984"),
+                        new Author("George Orwell"),
+                        new YearPublished(1949),
+                        new Price(8.99),
+                        new Paperback()
+                )));
 
-
-    for (String line : bookazon.viewBooks()) {
-        System.out.println(line);
-    }
+        for (String line : bookazon.viewBooks()) {
+            System.out.println(line);
+        }
 
         boolean allValid = bookazon.validateBooksSilently();
         assert allValid : "One or more books are invalid";
@@ -131,8 +132,8 @@ public class Bookazon {
         bookazon.users.get(0).checkout();
         bookazon.users.get(0).viewOrders();
 
-    for (String line : bookazon.viewUsers()) {
-        System.out.println(line);
-    }
+        for (String line : bookazon.viewUsers()) {
+            System.out.println(line);
+        }
     }
 }

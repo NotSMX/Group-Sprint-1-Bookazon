@@ -1,21 +1,29 @@
 public class BookValidator {
-    public boolean isPriceValid(Book book) {
-        return book.getPrice().getValue() > 0;
+        public boolean isPriceValid(BookDetails details) {
+        return details.getPrice().getValue() > 0;
     }
 
-    public boolean isTitleValid(Book book) {
-        return book.getTitle().getValue() != null && !book.getTitle().getValue().isEmpty();
+    public boolean isTitleValid(BookDetails details) {
+        return details.getTitle().getValue() != null && !details.getTitle().getValue().isEmpty();
     }
 
-    public boolean isAuthorValid(Book book) {
-        return book.getAuthor().getValue() != null && !book.getAuthor().getValue().isEmpty();
+    public boolean isAuthorValid(BookDetails details) {
+        return details.getAuthor().getValue() != null && !details.getAuthor().getValue().isEmpty();
     }
 
-    public boolean isYearPublishedValid(Book book) {
-        return book.getYearPublished().getValue() > 0;
+    public boolean isYearPublishedValid(BookDetails details) {
+        return details.getYearPublished().getValue() > 0;
     }
 
-    public boolean isTypeValid(Book book) {
-        return book.getType() != null;
+    public boolean isTypeValid(BookDetails details) {
+        return details.getType() != null;
+    }
+
+    public boolean isValid(BookDetails details) {
+        return isPriceValid(details) &&
+               isTitleValid(details) &&
+               isAuthorValid(details) &&
+               isYearPublishedValid(details) &&
+               isTypeValid(details);
     }
 }

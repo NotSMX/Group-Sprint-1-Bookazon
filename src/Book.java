@@ -1,27 +1,22 @@
-
 public class Book extends MediaItem {
+    private BookDetails bookDetails;
 
-    private BookType type;
-
-    public Book(Title t, Author a, YearPublished y, Price p, BookType type) {
-        super(t, a, y, p);
-        this.type = type;
+    public Book(BookDetails details) {
+        super(details);
+        this.bookDetails = details;
     }
 
-    public BookType getType() {
-        return type;
+    public void apply(BookDetails newDetails) {
+        this.bookDetails = newDetails;
     }
 
-    public void setType(BookType type) {
-        this.type = type;
+    @Override
+    public BookDetails getDetails() {
+        return bookDetails;
     }
 
-    public void apply(BookUpdate u) {
-        setTitle(u.title());
-        setAuthor(u.author());
-        setYearPublished(u.yearPublished());
-        setPrice(u.price());
-        setType(u.type());
+    @Override
+    public String getMediaType() {
+        return "Book";
     }
-
 }

@@ -1,8 +1,10 @@
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Order {
+
     private String dateCreated;
     private String dateShipped;
     private String userName;
@@ -32,29 +34,69 @@ public class Order {
         recomputeTotals();
     }
 
-    public void setShippingAddress(PostalAddress address) { this.shippingAddress = address; }
-    public void setBillingAddress(PostalAddress address)  { this.billingAddress  = address; }
+    public void setShippingAddress(PostalAddress address) {
+        this.shippingAddress = address;
+    }
+
+    public void setBillingAddress(PostalAddress address) {
+        this.billingAddress = address;
+    }
 
     public void setShippingAddress(String line1, String line2, String city, String state, String zip, String country) {
         this.shippingAddress = new PostalAddress(line1, line2, city, state, zip, country);
     }
+
     public void setBillingAddress(String line1, String line2, String city, String state, String zip, String country) {
         this.billingAddress = new PostalAddress(line1, line2, city, state, zip, country);
     }
 
-    public void setOrderStatus(String status) { this.orderStatus = status; }
-    public void setDateCreated(String date)   { this.dateCreated = date; }
-    public void setDateShipped(String date)   { this.dateShipped = date; }
-    public void setUserName(String name)      { this.userName = name; }
+    public void setOrderStatus(String status) {
+        this.orderStatus = status;
+    }
 
-    public String getDateCreated() { return dateCreated; }
-    public String getDateShipped() { return dateShipped; }
-    public String getUserName()    { return userName; }
-    public String getOrderStatus() { return orderStatus; }
-    public PostalAddress getShippingAddress() { return shippingAddress; }
-    public PostalAddress getBillingAddress()  { return billingAddress; }
-    public List<CartItem> getItems() { return Collections.unmodifiableList(orderItems); }
-    public double getOrderPrice() { return orderPrice; }
+    public void setDateCreated(String date) {
+        this.dateCreated = date;
+    }
+
+    public void setDateShipped(String date) {
+        this.dateShipped = date;
+    }
+
+    public void setUserName(String name) {
+        this.userName = name;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public String getDateShipped() {
+        return dateShipped;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public PostalAddress getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public PostalAddress getBillingAddress() {
+        return billingAddress;
+    }
+
+    public List<CartItem> getItems() {
+        return Collections.unmodifiableList(orderItems);
+    }
+
+    public double getOrderPrice() {
+        return orderPrice;
+    }
 
     private void setSubscription(Subscription subscription) {
         Subscription effective = (subscription == null) ? Subscription.of("normal") : subscription;
@@ -88,7 +130,9 @@ public class Order {
     }
 
     private static String joinAddress(PostalAddress a) {
-        if (a == null) return "null";
+        if (a == null) {
+            return "null";
+        }
         return a.toSingleLine();
     }
 }
