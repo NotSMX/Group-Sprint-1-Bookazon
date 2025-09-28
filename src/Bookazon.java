@@ -18,12 +18,13 @@ public class Bookazon {
         users.add(user);
     }
 
-    public void viewBooks() {
+    public java.util.List<String> viewBooks() {
         BookDetails details = new BookDetails();
+        java.util.List<String> lines = new java.util.ArrayList<>();
         for (Book book : books) {
-            String info = details.bookDetails(book);
-            System.out.println(info);
+        lines.add(details.bookDetails(book));
         }
+        return lines;
     }
 
     public void validateBooks() {
@@ -57,10 +58,12 @@ public class Bookazon {
         return true;
     }
 
-    public void viewUsers() {
+    public java.util.List<String> viewUsers() {
+        java.util.List<String> lines = new java.util.ArrayList<>();
         for (User user : users) {
-            System.out.println(user.getName() + " - Role: " + user.getSubscription().level());
+            lines.add(user.getName() + " - Role: " + user.getSubscription().level());
         }
+        return lines;
     }
 
     public void removeBook(Book book) {
@@ -71,22 +74,12 @@ public class Bookazon {
         users.remove(user);
     }
 
-    public void updateBookDetails(
-            Book book,
-            Title newTitle,
-            Author newAuthor,
-            YearPublished newYearPublished,
-            Price newPrice,
-            BookType type) {
-        book.setTitle(newTitle);
-        book.setAuthor(newAuthor);
-        book.setYearPublished(newYearPublished);
-        book.setPrice(newPrice);
-        book.setType(type);
+    public void updateBookDetails(Book book, BookUpdate u) {
+        book.apply(u);
     }
 
     public void updateRole(User user, String role) {
-        user.setSubscription(role);
+        user.updateSubscription(role);
     }
 
     public static void main(String[] args) {
@@ -117,7 +110,9 @@ public class Bookazon {
         ));
 
 
-        bookazon.viewBooks();
+    for (String line : bookazon.viewBooks()) {
+        System.out.println(line);
+    }
 
         boolean allValid = bookazon.validateBooksSilently();
         assert allValid : "One or more books are invalid";
@@ -136,6 +131,8 @@ public class Bookazon {
         bookazon.users.get(0).checkout();
         bookazon.users.get(0).viewOrders();
 
-        bookazon.viewUsers();
+    for (String line : bookazon.viewUsers()) {
+        System.out.println(line);
+    }
     }
 }
