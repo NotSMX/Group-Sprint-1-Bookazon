@@ -71,4 +71,9 @@ public abstract class User {
     }
 
     protected void onOrderPlaced(Order order) { }
+
+    public void updateSubscription(String role) {
+    setSubscription(role);
+}
+
 }

@@ -52,4 +52,13 @@ public class Book {
     public void setType(BookType type) {
         this.type = type;
     }
+    
+    public void apply(BookUpdate u) {
+    setTitle(u.title());
+    setAuthor(u.author());
+    setYearPublished(u.yearPublished());
+    setPrice(u.price());
+    setType(u.type());
+}
+
 }

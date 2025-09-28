@@ -75,15 +75,11 @@ public class Bookazon {
     }
 
     public void updateBookDetails(Book book, BookUpdate u) {
-        book.setTitle(u.title());
-        book.setAuthor(u.author());
-        book.setYearPublished(u.yearPublished());
-        book.setPrice(u.price());
-        book.setType(u.type());
+        book.apply(u);
     }
 
     public void updateRole(User user, String role) {
-        user.setSubscription(role);
+        user.updateSubscription(role);
     }
 
     public static void main(String[] args) {
