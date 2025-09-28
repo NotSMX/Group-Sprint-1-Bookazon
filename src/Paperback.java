@@ -3,4 +3,9 @@ public class Paperback extends BookType {
     public String getType() {
         return "Paperback";
     }
+
+    @Override
+    public String toString() {
+        return "Paperback";
+    }
 }

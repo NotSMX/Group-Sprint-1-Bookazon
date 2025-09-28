@@ -1,9 +1,19 @@
-public class AudioBook extends MediaItem {
-    private int lengthInMinutes;
 
-    public AudioBook(AudioBookDetails details, int lengthInMinutes) {
-        super(details);
-        this.lengthInMinutes = lengthInMinutes;
+public class AudioBook extends MediaItem {
+    private AudioBookDetails audioBookDetails;
+
+    public AudioBook(AudioBookDetails details, AudioBookValidator validator) {
+        super(details, validator);
+        this.audioBookDetails = details;
+    }
+
+    public void apply(AudioBookDetails newDetails) {
+        this.audioBookDetails = newDetails;
+    }
+
+    @Override
+    public AudioBookDetails getDetails() {
+        return audioBookDetails;
     }
 
     @Override
@@ -11,11 +21,4 @@ public class AudioBook extends MediaItem {
         return "Audiobook";
     }
 
-    public void setLengthInMinutes(int len) {
-        this.lengthInMinutes = len;
-    }
-
-    public int getLengthInMinutes() {
-        return lengthInMinutes;
-    }
 }

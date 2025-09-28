@@ -1,8 +1,8 @@
 public class Book extends MediaItem {
     private BookDetails bookDetails;
 
-    public Book(BookDetails details) {
-        super(details);
+    public Book(BookDetails details, BookValidator validator) {
+        super(details, validator);
         this.bookDetails = details;
     }
 
