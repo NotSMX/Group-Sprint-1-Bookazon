@@ -1,6 +1,6 @@
 public class CartItem {
-    private String itemName;
-    private double price;
+    private final String itemName;
+    private final double price;
     private int quantity;
 
     public CartItem(String itemName, double price, int quantity) {
