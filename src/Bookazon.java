@@ -142,10 +142,11 @@ public class Bookazon {
         bookazon.addUser(new CustomerUser("Alice", new Silver()));
         bookazon.addUser(new CustomerUser("Bob", new Gold()));
 
-        bookazon.users.get(0).addToCart(bookazon.products.get(0), 1);
-        bookazon.users.get(0).addToCart(bookazon.products.get(1), 2);
+        Cart cart1 = bookazon.users.get(0).getCart();
+        cart1.addItem(bookazon.products.get(0), 1);
+        cart1.addItem(bookazon.products.get(1), 2);
 
-        bookazon.users.get(0).viewCart();
+        cart1.viewCartDetails();
 
         bookazon.users.get(0).setShippingAddress("123 Main St", "", "Springfield", "IL", "62701", "USA");
         bookazon.users.get(0).setBillingAddress("456 Elm St", "", "Springfield", "IL", "62702", "USA");

@@ -1,16 +1,16 @@
 public class CartItem {
-    private final String itemName;
+    private final String name;
     private final double price;
     private int quantity;
 
-    public CartItem(String itemName, double price, int quantity) {
-        this.itemName = itemName;
-        this.price = price;
+    public CartItem(MediaItem item, int quantity) {
+        this.name = item.getMediaType() + " \"" + item.getDetails().getTitle().getValue() + "\"";
+        this.price = item.getDetails().getPrice().getValue();
         this.quantity = quantity;
     }
 
     public String getName() {
-        return itemName;
+        return name;
     }
 
     public double getPrice() {
@@ -36,7 +36,7 @@ public class CartItem {
     }
 
     public boolean equals(CartItem item) {
-        return this.itemName.equals(item.getName());
+        return this.name.equals(item.getName());
     }
 
     public double getTotalPrice() {
