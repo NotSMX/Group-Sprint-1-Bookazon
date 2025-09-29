@@ -13,7 +13,6 @@ public abstract class MediaItem {
 
     public void apply(MediaDetails details) {
         this.details = details;
-
     }
 
     public MediaValidator getValidator() {

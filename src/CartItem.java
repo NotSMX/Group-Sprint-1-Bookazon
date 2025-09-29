@@ -22,7 +22,17 @@ public class CartItem {
     }
 
     public void setQuantity(int quantity) {
+        if (!validateQuantity(quantity)) {
+            throw new IllegalArgumentException("Quantity cannot be negative!");
+        }
         this.quantity = quantity;
+    }
+
+    private boolean validateQuantity(int quantity) {
+        if (quantity < 0) {
+            return false;
+        }
+        return true;
     }
 
     public boolean equals(CartItem item) {

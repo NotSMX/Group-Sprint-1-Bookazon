@@ -2,10 +2,17 @@ public class Price {
     private final double cost;
 
     public Price(double cost) {
-        if (cost <= 0) {
-            throw new IllegalArgumentException("Cost must be valid");
+        if (!validateCost(cost)) {
+            throw new IllegalArgumentException("Price cannot be negative!");
         }
         this.cost = cost;
+    }
+
+    private boolean validateCost (double cost) {
+        if (cost <= 0) {
+            return false;
+        }
+        return true;
     }
 
     public double getValue() {
