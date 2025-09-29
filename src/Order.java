@@ -9,29 +9,21 @@ public class Order {
     private String dateShipped;
     private String userName;
     private String orderStatus;
-
     private PostalAddress shippingAddress;
     private PostalAddress billingAddress;
-
     private final ArrayList<CartItem> orderItems;
-
-    private String subscriptionLevel;
-    private final PricingPolicy pricingPolicy;
+    private Subscription subscription;
+    private final DefaultPricingPolicy pricingPolicy;
     private double orderPrice;
 
-    public Order(Cart cart, String subscription) {
-        this(cart, Subscription.of(subscription), new DefaultPricingPolicy());
+     public Order(Cart cart, Subscription subscription) {
+        this(cart, subscription, new DefaultPricingPolicy(cart, subscription));
     }
 
-    public Order(Cart cart, Subscription subscription) {
-        this(cart, subscription, new DefaultPricingPolicy());
-    }
-
-    public Order(Cart cart, Subscription subscription, PricingPolicy pricingPolicy) {
+    public Order(Cart cart, Subscription subscription, DefaultPricingPolicy pricingPolicy) {
         this.orderItems = new ArrayList<>(cart.getItems());
         this.pricingPolicy = pricingPolicy;
-        setSubscription(subscription);
-        recomputeTotals();
+        this.subscription = subscription;
     }
 
     public void setShippingAddress(PostalAddress address) {
@@ -97,21 +89,16 @@ public class Order {
     public double getOrderPrice() {
         return orderPrice;
     }
-
-    private void setSubscription(Subscription subscription) {
-        Subscription effective = (subscription == null) ? Subscription.of("normal") : subscription;
-        this.subscriptionLevel = effective.level();
+    public Subscription getSubscription() {
+        return subscription;
     }
 
-    private void recomputeTotals() {
-        PricingPolicy.PricingResult r = pricingPolicy.price(orderItems, Subscription.of(subscriptionLevel));
-        this.orderPrice = r.total;
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 
-    @Deprecated
-    public double calculatePrice(String subscription) {
-        PricingPolicy.PricingResult r = pricingPolicy.price(orderItems, Subscription.of(subscription));
-        return r.total;
+    public double calculatePrice() {
+        return pricingPolicy.calculateTotal();
     }
 
     public void printOrderDetails() {

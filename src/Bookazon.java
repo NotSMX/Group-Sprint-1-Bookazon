@@ -63,8 +63,8 @@ public class Bookazon {
         item.apply(u);
     }
 
-    public void updateRole(User user, String role) {
-        user.updateSubscription(role);
+    public void updateRole(User user, Subscription subscription) {
+        user.updateSubscription(subscription);
     }
 
     public static void main(String[] args) {
@@ -139,8 +139,8 @@ public class Bookazon {
         boolean allValid = bookazon.validateProductsSilently();
         assert allValid : "One or more books are invalid";
 
-        bookazon.addUser(new CustomerUser("Alice", "normal"));
-        bookazon.addUser(new CustomerUser("Bob", "gold"));
+        bookazon.addUser(new CustomerUser("Alice", new Silver()));
+        bookazon.addUser(new CustomerUser("Bob", new Gold()));
 
         bookazon.users.get(0).addToCart(bookazon.products.get(0), 1);
         bookazon.users.get(0).addToCart(bookazon.products.get(1), 2);

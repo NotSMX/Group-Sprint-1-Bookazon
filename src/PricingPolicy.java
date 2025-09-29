@@ -1,19 +1,19 @@
-import java.util.List;
+import java.util.ArrayList;
 
-public interface PricingPolicy {
-    PricingResult price(List<CartItem> items, Subscription subscription);
+public abstract class PricingPolicy {
 
-    final class PricingResult {
-        public final double subtotal;
-        public final double discountRate;  
-        public final double discountAmount;
-        public final double total;
+    public ArrayList<CartItem> orderItems;
+    public Subscription subscription;
 
-        public PricingResult(double subtotal, double discountRate) {
-            this.subtotal = subtotal;
-            this.discountRate = discountRate;
-            this.discountAmount = subtotal * discountRate;
-            this.total = subtotal - discountAmount;
+    public PricingPolicy(ArrayList<CartItem> orderItems, Subscription subscription) {
+        this.orderItems = orderItems;
+        this.subscription = subscription;
+    }
+    public double calculateTotal() {
+        double subtotal = 0.0;
+        for (CartItem item : orderItems) {
+            subtotal += item.getTotalPrice();
         }
+        return subtotal * (1 - subscription.discount());
     }
 }

@@ -1,19 +1,13 @@
-import java.util.List;
+public class DefaultPricingPolicy extends PricingPolicy {
 
-public class DefaultPricingPolicy implements PricingPolicy {
-
-    @Override
-    public PricingResult price(List<CartItem> items, Subscription subscription) {
+    public DefaultPricingPolicy(Cart cart, Subscription subscription) {
+        super(cart.getItems(), subscription); 
+    }
+    public double calculateTotal() {
         double subtotal = 0.0;
-        for (CartItem item : items) {
+        for (CartItem item : orderItems) {
             subtotal += item.getTotalPrice();
         }
-
-        double discountRate = 0.0;
-        if (subscription != null) {
-            discountRate = subscription.discount();
-        }
-
-        return new PricingResult(subtotal, discountRate);
+        return subtotal * (1 - subscription.discount());
     }
 }
