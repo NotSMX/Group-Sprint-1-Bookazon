@@ -11,9 +11,9 @@ public abstract class User {
     private PostalAddress shippingAddress;
     private PostalAddress billingAddress;
 
-    protected User(String name, String subscription) {
+    protected User(String name, Subscription subscription) {
         this.name = name;
-        this.subscription = Subscription.of(subscription);
+        this.subscription = subscription;
         this.cart = new Cart();
         this.orders = new ArrayList<>();
     }
@@ -30,8 +30,8 @@ public abstract class User {
         return subscription;
     }
 
-    public void setSubscription(String level) {
-        this.subscription = Subscription.of(level);
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 
     public PostalAddress getShippingAddress() {
@@ -98,8 +98,8 @@ public abstract class User {
     protected void onOrderPlaced(Order order) {
     }
 
-    public void updateSubscription(String role) {
-        setSubscription(role);
+    public void updateSubscription(Subscription subscription) {
+        setSubscription(subscription);
     }
 
 }

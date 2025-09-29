@@ -1,5 +1,5 @@
 public class CustomerUser extends User {
-    public CustomerUser(String name, String subscription) {
+    public CustomerUser(String name, Subscription subscription) {
         super(name, subscription);
     }
 
