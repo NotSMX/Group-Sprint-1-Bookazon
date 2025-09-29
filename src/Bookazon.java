@@ -25,13 +25,15 @@ public class Bookazon {
         }
     }
 
-    public void validateProducts() {
+    public java.util.List<String> validateProducts() {
+        java.util.List<String> lines = new java.util.ArrayList<>();
         for (MediaItem product : products) {
-            System.out.println(product.getValidator().toString());
+            lines.add(product.validationReport());
         }
+        return lines;
     }
 
-    public boolean validateBooksSilently() {
+    public boolean validateProductsSilently() {
         for (MediaItem product : products) {
             MediaDetails details = product.getDetails();
             if (!product.getValidator().isValid(details)) {
@@ -134,7 +136,7 @@ public class Bookazon {
 
         bookazon.viewProducts();
 
-        boolean allValid = bookazon.validateBooksSilently();
+        boolean allValid = bookazon.validateProductsSilently();
         assert allValid : "One or more books are invalid";
 
         bookazon.addUser(new CustomerUser("Alice", "normal"));
@@ -152,6 +154,10 @@ public class Bookazon {
         bookazon.users.get(0).viewOrders();
 
         for (String line : bookazon.viewUsers()) {
+            System.out.println(line);
+        }
+
+        for (String line : bookazon.validateProducts()) {
             System.out.println(line);
         }
     }
