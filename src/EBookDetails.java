@@ -17,10 +17,7 @@ public class EBookDetails extends MediaDetails {
 
     @Override
     public String toString() {
-        return "Title: " + getTitle().getValue() + "\n" +
-               "Author: " + getAuthor().getValue() + "\n" +
-               "Year Published: " + getYearPublished().getValue() + "\n" +
-               "Price: $" + getPrice().getValue() + "\n" +
+        return super.toString() + "\n" +
                "Format: " + format;
     }
 }
