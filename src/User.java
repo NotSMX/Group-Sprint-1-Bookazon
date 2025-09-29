@@ -62,22 +62,6 @@ public abstract class User {
         return cart;
     }
 
-    public void addToCart(MediaItem item, int quantity) {
-        if (item != null && quantity > 0) {
-            cart.addItem(new CartItem(item.getDetails().getTitle().getValue(), item.getDetails().getPrice().getValue(), quantity));
-        }
-    }
-
-    public void removeFromCart(MediaItem item) {
-        if (item != null) {
-            cart.removeByProductName(item.getDetails().getTitle().getValue());
-        }
-    }
-
-    public void viewCart() {
-        cart.viewCartDetails();
-    }
-
     public void viewOrders() {
         if (orders.isEmpty()) {
             System.out.println("No orders found");
