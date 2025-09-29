@@ -26,4 +26,12 @@ public abstract class MediaDetails {
     public Price getPrice() {
         return price;
     }
+
+    @Override
+    public String toString() {
+        return "Title: " + title.getValue() + "\n" +
+               "Author: " + author.getValue() + "\n" +
+               "Year Published: " + yearPublished.getValue() + "\n" +
+               "Price: $" + price.getValue();
+    }
 }
