@@ -33,7 +33,7 @@ public class Bookazon {
         return lines;
     }
 
-    public boolean validateBooksSilently() {
+    public boolean validateProductsSilently() {
         for (MediaItem product : products) {
             MediaDetails details = product.getDetails();
             if (!product.getValidator().isValid(details)) {
@@ -136,7 +136,7 @@ public class Bookazon {
 
         bookazon.viewProducts();
 
-        boolean allValid = bookazon.validateBooksSilently();
+        boolean allValid = bookazon.validateProductsSilently();
         assert allValid : "One or more books are invalid";
 
         bookazon.addUser(new CustomerUser("Alice", "normal"));
