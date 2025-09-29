@@ -1,21 +1,13 @@
-public class BookValidator {
-    public boolean isPriceValid(Book book) {
-        return book.getPrice().getValue() > 0;
+public class BookValidator extends MediaValidator{
+    public boolean isTypeValid(BookDetails details) {
+        return details.getType() != null;
     }
 
-    public boolean isTitleValid(Book book) {
-        return book.getTitle().getValue() != null && !book.getTitle().getValue().isEmpty();
+    public boolean isValid(BookDetails details) {
+        return super.isValid(details) && isTypeValid(details);
     }
 
-    public boolean isAuthorValid(Book book) {
-        return book.getAuthor().getValue() != null && !book.getAuthor().getValue().isEmpty();
-    }
-
-    public boolean isYearPublishedValid(Book book) {
-        return book.getYearPublished().getValue() > 0;
-    }
-
-    public boolean isTypeValid(Book book) {
-        return book.getType() != null;
+    public String toString(BookDetails details) {
+        return super.toString(details) + ",\n Cover Type: " + isTypeValid(details);
     }
 }

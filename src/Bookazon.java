@@ -1,59 +1,42 @@
+
 import java.util.ArrayList;
 
 public class Bookazon {
 
-    private final ArrayList<Book> books;
+    private final ArrayList<MediaItem> products;
     private final ArrayList<User> users;
 
     public Bookazon() {
-        books = new ArrayList<>();
+        products = new ArrayList<>();
         users = new ArrayList<>();
     }
 
-    public void addBook(Book book) {
-        books.add(book);
+    public void addItem(MediaItem item) {
+        products.add(item);
     }
 
     public void addUser(User user) {
         users.add(user);
     }
 
-    public java.util.List<String> viewBooks() {
-        BookDetails details = new BookDetails();
-        java.util.List<String> lines = new java.util.ArrayList<>();
-        for (Book book : books) {
-        lines.add(details.bookDetails(book));
+    public void viewProducts() {
+        for (MediaItem item : products) {
+            System.out.println(item.toString() + "\n");
         }
-        return lines;
     }
 
-    public void validateBooks() {
-        BookValidator validator = new BookValidator();
-        for (Book book : books) {
-            boolean priceValid = validator.isPriceValid(book);
-            boolean titleValid = validator.isTitleValid(book);
-            boolean authorValid = validator.isAuthorValid(book);
-            boolean yearValid = validator.isYearPublishedValid(book);
-            System.out.println(
-                book.getTitle().getValue()
-                + ": Price: " + priceValid
-                + ", Title: " + titleValid
-                + ", Author: " + authorValid
-                + ", Year: " + yearValid
-            );
+    public void validateProducts() {
+        for (MediaItem product : products) {
+            System.out.println(product.getValidator().toString());
         }
     }
 
     public boolean validateBooksSilently() {
-        BookValidator validator = new BookValidator();
-        for (Book book : books) {
-            boolean ok =
-                validator.isPriceValid(book) &&
-                validator.isTitleValid(book) &&
-                validator.isAuthorValid(book) &&
-                validator.isYearPublishedValid(book) &&
-                validator.isTypeValid(book);
-            if (!ok) return false;
+        for (MediaItem product : products) {
+            MediaDetails details = product.getDetails();
+            if (!product.getValidator().isValid(details)) {
+                return false; // stop on first invalid product
+            }
         }
         return true;
     }
@@ -66,16 +49,16 @@ public class Bookazon {
         return lines;
     }
 
-    public void removeBook(Book book) {
-        books.remove(book);
+    public void removeProduct(MediaItem item) {
+        products.remove(item);
     }
 
     public void removeUser(User user) {
         users.remove(user);
     }
 
-    public void updateBookDetails(Book book, BookUpdate u) {
-        book.apply(u);
+    public void updateProductDetails(MediaItem item, MediaDetails u) {
+        item.apply(u);
     }
 
     public void updateRole(User user, String role) {
@@ -85,34 +68,71 @@ public class Bookazon {
     public static void main(String[] args) {
         Bookazon bookazon = new Bookazon();
 
-        bookazon.addBook(new Book(
-            new Title("The Great Gatsby"),
-            new Author("F. Scott Fitzgerald"),
-            new YearPublished(1925),
-            new Price(9.99),
-            new Paperback()
+        bookazon.addItem(new Book(
+                new BookDetails(
+                        new Title("The Great Gatsby"),
+                        new Author("F. Scott Fitzgerald"),
+                        new YearPublished(1925),
+                        new Price(9.99),
+                        new Paperback()), new BookValidator()
         ));
 
-        bookazon.addBook(new Book(
-            new Title("To Kill a Mockingbird"),
-            new Author("Harper Lee"),
-            new YearPublished(1960),
-            new Price(7.99),
-            new Hardcover()
+        bookazon.addItem(new Book(
+                new BookDetails(
+                        new Title("To Kill a Mockingbird"),
+                        new Author("Harper Lee"),
+                        new YearPublished(1960),
+                        new Price(7.99),
+                        new Hardcover()), new BookValidator()
         ));
 
-        bookazon.addBook(new Book(
-            new Title("1984"),
-            new Author("George Orwell"),
-            new YearPublished(1949),
-            new Price(8.99),
-            new Paperback()
+        bookazon.addItem(new Book(
+                new BookDetails(
+                        new Title("1984"),
+                        new Author("George Orwell"),
+                        new YearPublished(1949),
+                        new Price(8.99),
+                        new Paperback()), new BookValidator()
         ));
 
+         // --- Add AudioBooks ---
+        bookazon.addItem(new AudioBook(
+            new AudioBookDetails(
+                new Title("Becoming"),
+                new Author("Michelle Obama"),
+                new YearPublished(2018),
+                new Price(14.99),
+                1140 // duration in minutes
+            ),
+            new AudioBookValidator()
+        ));
 
-    for (String line : bookazon.viewBooks()) {
-        System.out.println(line);
-    }
+         // --- Add DVDs ---
+        bookazon.addItem(new DVD(
+            new DVDDetails(
+                new Title("Inception"),
+                new Author("Christopher Nolan"),
+                new YearPublished(2010),
+                new Price(12.99),
+                120, // duration in seconds
+                "Region 1" // region code
+            ),
+            new DVDValidator()
+        ));
+
+        // --- Add E-Books ---
+        bookazon.addItem(new EBook(
+            new EBookDetails(
+                new Title("Clean Code"),
+                new Author("Robert C. Martin"),
+                new YearPublished(2008),
+                new Price(29.99),
+                "PDF" // format
+            ),
+            new EBookValidator()
+        ));
+
+        bookazon.viewProducts();
 
         boolean allValid = bookazon.validateBooksSilently();
         assert allValid : "One or more books are invalid";
@@ -120,8 +140,8 @@ public class Bookazon {
         bookazon.addUser(new CustomerUser("Alice", "normal"));
         bookazon.addUser(new CustomerUser("Bob", "gold"));
 
-        bookazon.users.get(0).addToCart(bookazon.books.get(0), 1);
-        bookazon.users.get(0).addToCart(bookazon.books.get(1), 2);
+        bookazon.users.get(0).addToCart(bookazon.products.get(0), 1);
+        bookazon.users.get(0).addToCart(bookazon.products.get(1), 2);
 
         bookazon.users.get(0).viewCart();
 
@@ -131,8 +151,8 @@ public class Bookazon {
         bookazon.users.get(0).checkout();
         bookazon.users.get(0).viewOrders();
 
-    for (String line : bookazon.viewUsers()) {
-        System.out.println(line);
-    }
+        for (String line : bookazon.viewUsers()) {
+            System.out.println(line);
+        }
     }
 }
