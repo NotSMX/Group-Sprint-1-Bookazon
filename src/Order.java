@@ -9,12 +9,9 @@ public class Order {
     private String dateShipped;
     private String userName;
     private String orderStatus;
-
     private PostalAddress shippingAddress;
     private PostalAddress billingAddress;
-
     private final ArrayList<CartItem> orderItems;
-
     private String subscriptionLevel;
     private final PricingPolicy pricingPolicy;
     private double orderPrice;

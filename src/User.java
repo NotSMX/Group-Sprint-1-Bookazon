@@ -7,7 +7,6 @@ public abstract class User {
     private Subscription subscription;
     private final Cart cart;
     private final ArrayList<Order> orders;
-
     private PostalAddress shippingAddress;
     private PostalAddress billingAddress;
 
