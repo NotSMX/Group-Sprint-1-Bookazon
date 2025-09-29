@@ -19,11 +19,12 @@ public class Bookazon {
         users.add(user);
     }
 
-    public void viewProducts() {
-        for (MediaItem item : products) {
-            System.out.println(item.toString() + "\n");
-        }
+    public java.util.List<String> viewProducts() {
+        java.util.List<String> lines = new java.util.ArrayList<>();
+        for (MediaItem item : products) lines.add(item.toString());
+        return lines;
     }
+
 
     public java.util.List<String> validateProducts() {
         java.util.List<String> lines = new java.util.ArrayList<>();
@@ -159,6 +160,10 @@ public class Bookazon {
 
         for (String line : bookazon.validateProducts()) {
             System.out.println(line);
+        }
+
+        for (String s : bookazon.viewProducts()) {
+            System.out.println(s + "\n");
         }
     }
 }
