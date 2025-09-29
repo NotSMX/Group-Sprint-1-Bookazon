@@ -1,5 +1,26 @@
 # Group Sprint 1: Bookazon
-An assignment for redesigning software and refactoring code smells.  Part of Software Engineering class CS321, fall 2024.
+
+<div align="center">
+███████╗██████╗ ██████╗ ██████╗ ██╗   ██╗ ██████████╗
+██╔════╝██╔══██╗██╔══██╗  ██╗║  ████╗ ██║╚══ ██╔══╝
+███████╗██████╔╝██████╔╝  ██╔╝  ██║██╔██╗    ██║
+╚════██║██╔══██╗██╔═██═╝  ██═══╝██║ ████╚╗   ██
+███████║██║  ██║██║ ██║ ██████║ ██    ██║    ██║      
+╚══════╝╚═╝  ╚═╝╚═╝ ╚═╝ ╚═╝╚═╝ ╚═══╝ ╚═╝
+                                ██
+                               ███
+                                ██
+                                ██
+                                ██
+                                ██
+                              ██████
+
+
+</div>
+
+An assignment for redesigning software and refactoring code smells. Part of Software Engineering class CS321, fall 2025.
+
+---
 
 ## Project Objectives
 - Practice redesigning a software project with guidance from **SOLID design principles**.
@@ -10,27 +31,78 @@ An assignment for redesigning software and refactoring code smells.  Part of Sof
 ---
 
 ## Overview
-In this project, you will work in small teams to **extend** and **improve** an existing online book store. The project focuses on adding new functionality while ensuring the system adheres to **key software design principles**. Throughout the project, you will practice collaborative development via GitHub, utilizing best practices such as **issue tracking**, **code reviews**, and **feature branching**.
+We took a small online bookstore and turned it into a cleaner, extensible system. The headline features this sprint:
+
+- **Order printouts show discount details** (tier, % off, amount, final total).
+- **Catalog supports more than books**: Audiobooks, DVDs, and E-books under a common `MediaItem`.
+- Responsibilities were separated so **domain code doesn’t print** and **validation doesn’t leak**.
+
+### TL;DR demo (console)
+=== Order Summary ===
+Items: 3
+Subtotal: $47.97
+Discount (gold 15%): -$7.20
+Total: $40.77
+
 
 ---
 
 ## Repository Management
-- The **repo manager** should begin by forking the project repository on GitHub and adding all team members as collaborators.  
-  - **Starting Repository:** [Link to be provided]
-- The forked repository will serve as your team's workspace. All progress will be tracked through GitHub.
+- Forked the starter repo and added all collaborators.
+- Worked in **feature branches** per issue (e.g., `feat/discount-print`, `refactor/bookazon-view`).
+- Every change merged via **PR + review**; main/development stayed green.
 
 ---
 
 ## Class Diagram and Code Review
-- Draw a **UML class diagram** to visualize the system's structure and component relationships.
-- Have a group discussion on the current **design** and **code** to ensure all team members understand the system.
+
+### Before → After (architecture)
+```mermaid
+flowchart LR
+  subgraph Before
+    BZ[Bookazon\n(Stores, Updates,\nValidates, Prints)]
+  end
+
+  subgraph After
+    MI[«interface» MediaItem] --> Bk[Book]
+    MI --> Au[Audiobook]
+    MI --> Dvd[DVD]
+    MI --> Eb[E-book]
+
+    Or[Order] --> Sub[Subscription\napplyTo(subtotal)]
+    Or --> Price[PricingPolicy]
+    Pr[ConsoleOrderPrinter] --> Or
+
+    Val[MediaValidator] -.used by.-> MI
+  end
+
+  BZ ==refactor==> After
   
 ---
 
 ## SOLID Principles, Code Smells, and Technical Debt
-- Identify **design problems** in the system that violate **SOLID principles**.
-- Make a list of any **code smells** (e.g., duplicated code, long methods, or classes with too many responsibilities).
-- Document each issue clearly, providing examples from the codebase.
+## Design Problems & Code Smells (Postcards)
+
+| Area | Smell / Problem | Where / Example | Our Fix / Suggested Fix | Principle |
+|---|---|---|---|---|
+| **Bookazon** | **Doing too much** (SRP) | Stores collections, manages add/remove, updates details, prints, owns `main`.<br>`viewBooks()`, `viewUsers()`, `updateBookDetails(...)`, `updateRole(...)`, `main(...)` | Return data from `view*()`; move printing to a printer class; delegate updates to the domain (`MediaItem.apply`, `User.updateSubscription`); keep `main` minimal. | SRP |
+| **Bookazon** | **OCP violation** | `updateBookDetails(Book, String newTitle, String newAuthor, int newYearPublished, double newPrice, boolean isPaperback)` must change whenever attributes change. | Replace parameter list with a single **details object** (e.g., `MediaDetails` / `BookDetails`) or a builder; `Bookazon` calls `item.apply(details)`. | OCP |
+| **Bookazon** | **Feature Envy** | `book.setTitle(...)`, `book.setAuthor(...)`, … `user.setSubscription(role)` done from `Bookazon`. | Push behavior into the objects: `item.apply(details)`, `user.updateSubscription(role)`. | Encapsulation / Tell-Don’t-Ask |
+| **Bookazon** | **Data Clump** | Repeated parameter bundle for updates: `newTitle, newAuthor, newYearPublished, newPrice, isPaperback`. | Replace with `BookDetails` / `MediaDetails`. | SRP |
+| **Book** | **Doing too much** (SRP) | Holds data, **validates** (`isPriceValid`, `isTitleValid`, …) and **prints** (`printBookDetails`). | Move validation to `BookValidator`; move rendering to a printer or `BookDetails -> toString`; keep `Book` as state + behavior only. | SRP |
+| **Book** | **OCP violation (formatting)** | `printBookDetails()` prints fixed console format; changing format requires editing class. | Return a data view or accept a `Renderer`; printers (console/JSON/web) format externally. | OCP |
+| **Book** | **Primitive Obsession** | `String title/author`, `int yearPublished`, `double price`, `boolean isPaperback`. | Use value objects: `Title`, `Author`, `YearPublished`, `Price`; replace boolean flag with **polymorphism** (`Paperback`, `Hardcover`) or `BookType`. | Encapsulation / Polymorphism |
+| **Order** | **Doing too much** (SRP) | Stores metadata, manages addresses, items, **applies discounts**, **prints**. | Extract pricing to `PricingPolicy` + `Subscription`; move printing to `OrderPrinter`; keep `Order` as aggregate + totals. | SRP |
+| **Order** | **OCP violation (discounts)** | `calculatePrice(String subscription)` with `if/else` on `"gold"`, `"silver"`, … | Replace with `Subscription.applyTo(subtotal)` or strategy map; inject `PricingPolicy`. | OCP |
+| **Order** | **Primitive Obsession** | Addresses as six strings; subscription as `String`; dates as `String`. | Introduce `PostalAddress`, `Subscription` (value/strategy), and proper date/time types (`LocalDate`/`LocalDateTime`). | Encapsulation |
+| **Order** | **Data Clump** | Shipping/Billing each have 6 params across methods. | Replace with `PostalAddress` object; use `setShippingAddress(PostalAddress)` / `setBillingAddress(PostalAddress)`. | SRP |
+| **Order** | **Magic Numbers** | Discount rates inline. | Centralize in `Subscription` or `PricingPolicy` constants/strategies. | Clarity |
+| **Order** | **DIP violation** | Depends on strings + embedded rules. | Depend on abstractions: `Subscription`, `PricingPolicy`, `OrderPrinter`. | DIP |
+| **User** | **Doing too much** (SRP) | Identity, subscription, two addresses, cart ops, and checkout/order creation. | Keep identity + preferences; let `OrderService` handle checkout; keep address logic in `PostalAddress`. | SRP |
+| **User** | **Primitive Obsession** | Address parts as strings; subscription as `String`. | Use `PostalAddress`; use `Subscription` object/factory. | Encapsulation |
+| **User** | **Data Clumps** | `setShippingAddress(l1,l2,city,state,zip,country)` and similar for billing. | Collapse to `PostalAddress` parameter. | SRP |
+| **Cross-cutting** | **Law of Demeter** | Callers doing `product.getValidator().isValid(product.getDetails())`. | Provide `MediaItem.isValid()` and `validationReport()` wrappers. | LoD |
+
 
 ---
 
@@ -51,8 +123,8 @@ In this project, you will work in small teams to **extend** and **improve** an e
 ---
 
 ## Milestone and Issue Organization
-- The **backlog manager** is responsible for organizing identified issues into a **milestone**.
-- Properly **label** each issue, indicating its type (e.g., "bug," "enhancement," "refactoring") and priority level.
+- One sprint milestone with labeled issues: enhancement, refactor, design, bug.
+- Each PR had a short summary + screenshot or output snippet when relevant.
 
 ---
 
@@ -69,9 +141,8 @@ In this project, you will work in small teams to **extend** and **improve** an e
 ---
 
 ## Extensions
-- Fix all coding style issues with guidance from a tool such as **CheckStyle**. Document your progress with **before/after snapshots** of the code.
-- Create a **burndown chart** for this sprint using GitHub or another tool.
-- Add a **creative and elaborate `README.md`** file to your repository explaining the work you did. This should be more creative than the project report.
+- Burndown shown in the report document
+- This creative README, which includes different title formatting, tables, documentation, and fun markdown images.
 
 ---
 
