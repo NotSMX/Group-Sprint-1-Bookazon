@@ -25,10 +25,12 @@ public class Bookazon {
         }
     }
 
-    public void validateProducts() {
+    public java.util.List<String> validateProducts() {
+        java.util.List<String> lines = new java.util.ArrayList<>();
         for (MediaItem product : products) {
-            System.out.println(product.getValidator().toString());
+            lines.add(product.validationReport());
         }
+        return lines;
     }
 
     public boolean validateBooksSilently() {
@@ -152,6 +154,10 @@ public class Bookazon {
         bookazon.users.get(0).viewOrders();
 
         for (String line : bookazon.viewUsers()) {
+            System.out.println(line);
+        }
+
+        for (String line : bookazon.validateProducts()) {
             System.out.println(line);
         }
     }

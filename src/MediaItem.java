@@ -24,6 +24,13 @@ public abstract class MediaItem {
         return validator.isValid(details);
     }
 
+    public String validationReport() {
+        String title = (details.getTitle() != null)
+            ? details.getTitle().getValue()
+            : "(untitled)";
+        return title + ": " + (isValid() ? "valid" : "invalid");
+    }
+
     @Override
     public String toString() {
         return "Media Type: " + getMediaType() + "\n" + details.toString();
