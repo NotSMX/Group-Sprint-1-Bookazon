@@ -61,9 +61,9 @@ Total: $40.77
 
 ## Class Diagram and Code Review
 
-![UML Overview](docs/uml-after.png)
+![UML Overview](UML_after.png)
 
-<sub>[Open full-size diagram](docs/uml-after.png) • [Source file (draw.io)](docs/uml-after.drawio)</sub>
+<sub>[Open full-size diagram](UML_after.png) • [Source file (draw.io)](UML_after.drawio)</sub>
 
 ---
 
