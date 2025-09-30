@@ -96,18 +96,20 @@ Link to the Google Drawing: https://docs.google.com/drawings/d/1raz7W154k8HTIfWp
 ---
 
 ## Propose Solutions and Create Issues
-- Discuss potential solutions for each identified design problem and code smell.
-- Add these problems as **issues** in your GitHub repository. Each issue should include:
-  - A clear description of the problem (with references to the code).
-  - The proposed solution (e.g., refactoring, code redesign, or applying SOLID principles).
+- Reviewed the codebase and mapped each smell to a concrete fix.
+- Opened GitHub issues with:
+  - A short problem statement and code references.
+  - A proposed refactor (SOLID principle noted) and acceptance criteria.
+- Worked one issue per branch, linked PRs back to issues, and closed them on merge.
 
 ---
 
 ## Adding New Features
-- Extend the system's functionality by:
-  - **Updating the order printing** to include discount details.
-  - Expanding the system to support **new media types**: audiobooks, DVDs, and e-books.
-- Plan the necessary design changes to incorporate these new features while maintaining SOLID principles.
+- Introduced an **order printout with discount visibility** so the pricing process is explicit: items form a subtotal, the subscription tier applies a percentage reduction, and the final total is shown with a clear breakdown (tier, percent, discount amount, total).  
+- Centralized **discount logic** via `Subscription.applyTo(...)` (with a pricing policy), while keeping all formatting in a dedicated printer; this separation reduces coupling and makes alternate outputs (e.g., JSON/UI) straightforward.  
+- Expanded the catalog to include **Audiobook, DVD, and E-book**, modeled as concrete implementations of a common `MediaItem` abstraction; each type owns its details and validation, which preserves a stable interface for callers.  
+- Maintained **design guardrails** throughout (SRP/OCP/LoD/DIP): domain objects supply data and behavior, validators enforce constraints, and presentation is handled by the printer.  
+- Verified the flow end-to-end by compiling/running locally and observing the expected console summary with the **discount breakdown** alongside the new media items.
 
 ---
 
@@ -136,19 +138,4 @@ Link to the Google Drawing: https://docs.google.com/drawings/d/1raz7W154k8HTIfWp
 ---
 
 ## Report (Google Doc)
-Organize a **Google Doc report** with the following sections, including screenshots and text to communicate the objectives of your work:
-
-1. **Abstract:**  
-   A brief summary of the Sprint in your own words (no more than 150 words). Give context and summarize the outcome.
-
-2. **Results:**  
-   A section outlining the results of your Sprint, including links to your **public repository**.
-
-3. **Reflection:**  
-   Reflect on what you learned during the Sprint.
-
-4. **Extensions:**  
-   Describe any extensions you undertook, supported by text output, graphs, tables, or images.
-
-5. **References/Acknowledgements/AI Use Documentation:**  
-   List any references used and acknowledge AI tools, if applicable, that contributed to your work.
+Link to Our Sprint 1 Report: https://docs.google.com/document/d/1oPctuseiby8H2aiS5yI0XEgMlWjG56N5mEKhJFcn6oo/edit?usp=sharing
