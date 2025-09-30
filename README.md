@@ -65,7 +65,7 @@ Total: $40.77
 
 <sub>[Open full-size diagram](UML_after.png)
 
-<sub>[Google Drawing](https://docs.google.com/drawings/d/1raz7W154k8HTIfWpvqwkp4DcXrt_aSxsfeZqA4z2jBg/edit?usp=sharing)</sub>
+Link to the Google Drawing: https://docs.google.com/drawings/d/1raz7W154k8HTIfWpvqwkp4DcXrt_aSxsfeZqA4z2jBg/edit?usp=sharing
 
 ---
 
