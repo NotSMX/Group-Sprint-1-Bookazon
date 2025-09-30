@@ -1,55 +1,22 @@
-public class Book {
-    private String title;
-    private String author;
-    private int yearPublished;
-    private double price;
-    private boolean isPaperback;  // true if the book is paperback, false if it is hardcover
+public class Book extends MediaItem {
+    private BookDetails bookDetails;
 
-    public Book(String title, String author, int yearPublished, double price, boolean isPaperback) {
-        this.title = title;
-        this.author = author;
-        this.yearPublished = yearPublished;
-        this.price = price;
-        this.isPaperback = isPaperback;
+    public Book(BookDetails details, BookValidator validator) {
+        super(details, validator);
+        this.bookDetails = details;
     }
 
-    public String getTitle() {
-        return title;
+    public void apply(BookDetails newDetails) {
+        this.bookDetails = newDetails;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    @Override
+    public BookDetails getDetails() {
+        return bookDetails;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public int getYearPublished() {
-        return yearPublished;
-    }
-
-    public void setYearPublished(int yearPublished) {
-        this.yearPublished = yearPublished;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public boolean isPaperback() {
-        return isPaperback;
-    }
-
-    public void setPaperback(boolean isPaperback) {
-        this.isPaperback = isPaperback;
+    @Override
+    public String getMediaType() {
+        return "Book";
     }
 }

@@ -1,46 +1,45 @@
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Order {
+
     private String dateCreated;
     private String dateShipped;
     private String userName;
     private String orderStatus;
-    private String shippingAddressLine1;
-    private String shippingAddressLine2;
-    private String shippingAddressCity;
-    private String shippingAddressState;
-    private String shippingAddressZip;
-    private String shippingAddressCountry;
-    private String billingAddressLine1;
-    private String billingAddressLine2;
-    private String billingAddressCity;
-    private String billingAddressState;
-    private String billingAddressZip;
-    private String billingAddressCountry;
-    private ArrayList<CartItem> items;
+    private PostalAddress shippingAddress;
+    private PostalAddress billingAddress;
+    private final ArrayList<CartItem> orderItems;
+    private Subscription subscription;
+    private final DefaultPricingPolicy pricingPolicy;
     private double orderPrice;
 
-    public Order(Cart cart, String subscription) {
-        this.items = cart.getItems();
-        this.orderPrice = calculatePrice(subscription);
+    public Order(Cart cart, Subscription subscription) {
+        this(cart, subscription, new DefaultPricingPolicy(cart, subscription));
+    }
+
+    public Order(Cart cart, Subscription subscription, DefaultPricingPolicy pricingPolicy) {
+        this.orderItems = new ArrayList<>(cart.getItems());
+        this.pricingPolicy = pricingPolicy;
+        this.subscription = subscription;
+    }
+
+    public void setShippingAddress(PostalAddress address) {
+        this.shippingAddress = address;
+    }
+
+    public void setBillingAddress(PostalAddress address) {
+        this.billingAddress = address;
     }
 
     public void setShippingAddress(String line1, String line2, String city, String state, String zip, String country) {
-        this.shippingAddressLine1 = line1;
-        this.shippingAddressLine2 = line2;
-        this.shippingAddressCity = city;
-        this.shippingAddressState = state;
-        this.shippingAddressZip = zip;
-        this.shippingAddressCountry = country;
+        this.shippingAddress = new PostalAddress(line1, line2, city, state, zip, country);
     }
 
     public void setBillingAddress(String line1, String line2, String city, String state, String zip, String country) {
-        this.billingAddressLine1 = line1;
-        this.billingAddressLine2 = line2;
-        this.billingAddressCity = city;
-        this.billingAddressState = state;
-        this.billingAddressZip = zip;
-        this.billingAddressCountry = country;
+        this.billingAddress = new PostalAddress(line1, line2, city, state, zip, country);
     }
 
     public void setOrderStatus(String status) {
@@ -59,32 +58,69 @@ public class Order {
         this.userName = name;
     }
 
-    public void printOrderDetails() {
-        System.out.println("Order Details:");
-        System.out.println("Date Created: " + dateCreated);
-        System.out.println("Date Shipped: " + dateShipped);
-        System.out.println("User Name: " + userName);
-        System.out.println("Order Status: " + orderStatus);
-        System.out.println("Shipping Address: " + shippingAddressLine1 + ", " + shippingAddressLine2 + ", " + shippingAddressCity + ", " + shippingAddressState + ", " + shippingAddressZip + ", " + shippingAddressCountry);
-        System.out.println("Billing Address: " + billingAddressLine1 + ", " + billingAddressLine2 + ", " + billingAddressCity + ", " + billingAddressState + ", " + billingAddressZip + ", " + billingAddressCountry);
-        System.out.println("Order Price: $" + orderPrice);
+    public String getDateCreated() {
+        return dateCreated;
     }
 
-    public double calculatePrice(String subscription) {
-        double totalPrice = 0.0;
+    public String getDateShipped() {
+        return dateShipped;
+    }
 
-        for (CartItem item : items) {
-            totalPrice += item.getTotalPrice();
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public PostalAddress getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public PostalAddress getBillingAddress() {
+        return billingAddress;
+    }
+
+    public List<CartItem> getItems() {
+        return Collections.unmodifiableList(orderItems);
+    }
+
+    public double getOrderPrice() {
+        return orderPrice;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
+    }
+
+    public double calculatePrice() {
+        return pricingPolicy.calculateTotal();
+    }
+
+    public void printOrderDetails() {
+        System.out.println("Order Details:");
+        System.out.println("Date Created: " + valueOrNull(dateCreated));
+        System.out.println("Date Shipped: " + valueOrNull(dateShipped));
+        System.out.println("User Name: " + valueOrNull(userName));
+        System.out.println("Order Status: " + valueOrNull(orderStatus));
+        System.out.println("Shipping Address: " + joinAddress(shippingAddress));
+        System.out.println("Billing Address: " + joinAddress(billingAddress));
+        System.out.println("Order Price: $" + String.format("%.2f", orderPrice));
+    }
+
+    private static String valueOrNull(String v) {
+        return v == null ? "null" : v;
+    }
+
+    private static String joinAddress(PostalAddress a) {
+        if (a == null) {
+            return "null";
         }
-
-        if (subscription == "gold") {
-            totalPrice *= 0.15; // 15% discount for prime members
-        } else if (subscription == "platinum") {
-            totalPrice *= 0.10; // 10% discount for platinum members
-        } else if (subscription == "silver") {
-            totalPrice *= 0.05; // 5% discount for silver members
-        } 
-
-        return totalPrice;
+        return a.toSingleLine();
     }
 }
