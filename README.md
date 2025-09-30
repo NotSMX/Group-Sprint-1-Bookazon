@@ -48,8 +48,8 @@ Total: $40.77
 ---
 ```
  /\_/\  
-( o.o ) 
- > ^ <
+( o.o )   "$40.77 dollars!!??"
+ > ^ <      - financially struggling cat
 ```
 
 ## Repository Management
@@ -71,6 +71,12 @@ Link to the Google Drawing: https://docs.google.com/drawings/d/1raz7W154k8HTIfWp
 
 ## SOLID Principles, Code Smells, and Technical Debt
 ## Design Problems & Code Smells (Postcards)
+```
+  __
+o'')}____//    "what is that smell... smells like code... code smells."
+ `_/      )      — golden retriever of refactors
+ (_(_/-(_/
+```
 
 | Area | Smell / Problem | Where / Example | Our Fix / Suggested Fix | Principle |
 |---|---|---|---|---|
