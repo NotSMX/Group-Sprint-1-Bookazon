@@ -145,3 +145,12 @@ o'')}____//    "what is that smell... smells like code... code smells."
 
 ## Report (Google Doc)
 Link to Our Sprint 1 Report: https://docs.google.com/document/d/1oPctuseiby8H2aiS5yI0XEgMlWjG56N5mEKhJFcn6oo/edit?usp=sharing
+
+---
+
+## How to Run
+```
+cd src
+javac *.java
+java Bookazon
+```
