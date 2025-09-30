@@ -112,9 +112,9 @@ o'')}____//    "what is that smell... smells like code... code smells."
 
 ## Adding New Features
 - Introduced an **order printout with discount visibility** so the pricing process is explicit: items form a subtotal, the subscription tier applies a percentage reduction, and the final total is shown with a clear breakdown (tier, percent, discount amount, total).  
-- Centralized **discount logic** via `Subscription.applyTo(...)` (with a pricing policy), while keeping all formatting in a dedicated printer; this separation reduces coupling and makes alternate outputs (e.g., JSON/UI) straightforward.  
+- Centralized **discount logic** (with a pricing policy), while keeping all formatting in a dedicated printer; this separation reduces coupling and makes alternate outputs (e.g., JSON/UI) straightforward.  
 - Expanded the catalog to include **Audiobook, DVD, and E-book**, modeled as concrete implementations of a common `MediaItem` abstraction; each type owns its details and validation, which preserves a stable interface for callers.  
-- Maintained **design guardrails** throughout (SRP/OCP/LoD/DIP): domain objects supply data and behavior, validators enforce constraints, and presentation is handled by the printer.  
+- Maintained **design guardrails** throughout: domain objects supply data and behavior, validators enforce constraints, and presentation is handled by the printer.  
 - Verified the flow end-to-end by compiling/running locally and observing the expected console summary with the **discount breakdown** alongside the new media items.
 
 ---
