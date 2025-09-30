@@ -29,10 +29,7 @@ public class CartItem {
     }
 
     private boolean validateQuantity(int quantity) {
-        if (quantity < 0) {
-            return false;
-        }
-        return true;
+        return quantity >= 0;
     }
 
     public boolean equals(CartItem item) {

@@ -30,8 +30,8 @@ public abstract class MediaDetails {
     @Override
     public String toString() {
         return "Title: " + title.getValue() + "\n" +
-               "Author: " + author.getValue() + "\n" +
-               "Year Published: " + yearPublished.getValue() + "\n" +
-               "Price: $" + price.getValue();
+                "Author: " + author.getValue() + "\n" +
+                "Year Published: " + yearPublished.getValue() + "\n" +
+                "Price: $" + price.getValue();
     }
 }

@@ -16,7 +16,7 @@ public class Order {
     private final DefaultPricingPolicy pricingPolicy;
     private double orderPrice;
 
-     public Order(Cart cart, Subscription subscription) {
+    public Order(Cart cart, Subscription subscription) {
         this(cart, subscription, new DefaultPricingPolicy(cart, subscription));
     }
 
@@ -89,6 +89,7 @@ public class Order {
     public double getOrderPrice() {
         return orderPrice;
     }
+
     public Subscription getSubscription() {
         return subscription;
     }

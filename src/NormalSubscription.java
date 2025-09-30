@@ -1,6 +1,11 @@
 public class NormalSubscription extends Subscription {
     @Override
-    public String level()    { return "Normal"; }
+    public String level() {
+        return "Normal";
+    }
+
     @Override
-    public double discount() { return 0.0; }
+    public double discount() {
+        return 0.0;
+    }
 }

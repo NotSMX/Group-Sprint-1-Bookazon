@@ -10,6 +10,7 @@ public class BookDetails extends MediaDetails {
     public void setType(BookType type) {
         this.type = type;
     }
+
     public BookType getType() {
         return type;
     }
@@ -17,6 +18,6 @@ public class BookDetails extends MediaDetails {
     @Override
     public String toString() {
         return super.toString() + "\n" +
-               "Type: " + type;  // show Paperback/Hardcover
+                "Type: " + type; // show Paperback/Hardcover
     }
 }

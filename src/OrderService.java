@@ -5,9 +5,12 @@ public class OrderService {
     private static final DateTimeFormatter ISO_DATE = DateTimeFormatter.ISO_DATE;
 
     public Order createOrder(User user) {
-        if (user == null) throw new IllegalArgumentException("user cannot be null");
-        if (user.getCart() == null) throw new IllegalStateException("user cart cannot be null");
-        if (user.getSubscription() == null) throw new IllegalStateException("user subscription cannot be null");
+        if (user == null)
+            throw new IllegalArgumentException("user cannot be null");
+        if (user.getCart() == null)
+            throw new IllegalStateException("user cart cannot be null");
+        if (user.getSubscription() == null)
+            throw new IllegalStateException("user subscription cannot be null");
         Order order = new Order(user.getCart(), user.getSubscription());
         PostalAddress ship = user.getShippingAddress();
         if (ship != null) {

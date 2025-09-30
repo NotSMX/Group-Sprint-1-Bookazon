@@ -1,6 +1,6 @@
 public class EBookDetails extends MediaDetails {
 
-    private String format;  // PDF, EPUB, MOBI, etc.
+    private String format; // PDF, EPUB, MOBI, etc.
 
     public EBookDetails(Title title, Author author, YearPublished yearPublished, Price price, String format) {
         super(title, author, yearPublished, price);
@@ -18,6 +18,6 @@ public class EBookDetails extends MediaDetails {
     @Override
     public String toString() {
         return super.toString() + "\n" +
-               "Format: " + format;
+                "Format: " + format;
     }
 }

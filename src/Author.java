@@ -9,10 +9,7 @@ public class Author {
     }
 
     private boolean validateName(String name) {
-        if (name == null || name.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !(name == null || name.isEmpty());
     }
 
     public String getValue() {

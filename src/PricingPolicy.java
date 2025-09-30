@@ -9,6 +9,7 @@ public abstract class PricingPolicy {
         this.orderItems = orderItems;
         this.subscription = subscription;
     }
+
     public double calculateTotal() {
         double subtotal = 0.0;
         for (CartItem item : orderItems) {

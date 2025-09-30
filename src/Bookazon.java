@@ -76,8 +76,8 @@ public class Bookazon {
                         new Author("F. Scott Fitzgerald"),
                         new YearPublished(1925),
                         new Price(9.99),
-                        new Paperback()), new BookValidator()
-        ));
+                        new Paperback()),
+                new BookValidator()));
 
         bookazon.addItem(new Book(
                 new BookDetails(
@@ -85,8 +85,8 @@ public class Bookazon {
                         new Author("Harper Lee"),
                         new YearPublished(1960),
                         new Price(7.99),
-                        new Hardcover()), new BookValidator()
-        ));
+                        new Hardcover()),
+                new BookValidator()));
 
         bookazon.addItem(new Book(
                 new BookDetails(
@@ -94,45 +94,42 @@ public class Bookazon {
                         new Author("George Orwell"),
                         new YearPublished(1949),
                         new Price(8.99),
-                        new Paperback()), new BookValidator()
-        ));
+                        new Paperback()),
+                new BookValidator()));
 
-         // --- Add AudioBooks ---
+        // --- Add AudioBooks ---
         bookazon.addItem(new AudioBook(
-            new AudioBookDetails(
-                new Title("Becoming"),
-                new Author("Michelle Obama"),
-                new YearPublished(2018),
-                new Price(14.99),
-                1140 // duration in minutes
-            ),
-            new AudioBookValidator()
-        ));
+                new AudioBookDetails(
+                        new Title("Becoming"),
+                        new Author("Michelle Obama"),
+                        new YearPublished(2018),
+                        new Price(14.99),
+                        1140 // duration in minutes
+                ),
+                new AudioBookValidator()));
 
-         // --- Add DVDs ---
+        // --- Add DVDs ---
         bookazon.addItem(new DVD(
-            new DVDDetails(
-                new Title("Inception"),
-                new Author("Christopher Nolan"),
-                new YearPublished(2010),
-                new Price(12.99),
-                120, // duration in seconds
-                "Region 1" // region code
-            ),
-            new DVDValidator()
-        ));
+                new DVDDetails(
+                        new Title("Inception"),
+                        new Author("Christopher Nolan"),
+                        new YearPublished(2010),
+                        new Price(12.99),
+                        120, // duration in seconds
+                        "Region 1" // region code
+                ),
+                new DVDValidator()));
 
         // --- Add E-Books ---
         bookazon.addItem(new EBook(
-            new EBookDetails(
-                new Title("Clean Code"),
-                new Author("Robert C. Martin"),
-                new YearPublished(2008),
-                new Price(29.99),
-                "PDF" // format
-            ),
-            new EBookValidator()
-        ));
+                new EBookDetails(
+                        new Title("Clean Code"),
+                        new Author("Robert C. Martin"),
+                        new YearPublished(2008),
+                        new Price(29.99),
+                        "PDF" // format
+                ),
+                new EBookValidator()));
 
         bookazon.viewProducts();
 

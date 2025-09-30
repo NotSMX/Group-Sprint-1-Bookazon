@@ -10,11 +10,12 @@ public class DVDValidator extends MediaValidator {
 
     public boolean isValid(DVDDetails details) {
         return super.isValid(details) &&
-               isRuntimeValid(details) &&
-               isRegionValid(details);
+                isRuntimeValid(details) &&
+                isRegionValid(details);
     }
 
     public String toString(DVDDetails details) {
-        return super.toString(details) + ",\n Runtime: " + isRuntimeValid(details) + ",\n Region: " + isRegionValid(details);
+        return super.toString(details) + ",\n Runtime: " + isRuntimeValid(details) + ",\n Region: "
+                + isRegionValid(details);
     }
 }

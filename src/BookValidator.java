@@ -1,4 +1,4 @@
-public class BookValidator extends MediaValidator{
+public class BookValidator extends MediaValidator {
     public boolean isTypeValid(BookDetails details) {
         return details.getType() != null;
     }

@@ -14,18 +14,19 @@ public abstract class MediaValidator {
     public boolean isYearPublishedValid(MediaDetails details) {
         return details.getYearPublished().getValue() > 0;
     }
+
     public boolean isValid(MediaDetails details) {
         return isPriceValid(details) &&
-               isTitleValid(details) &&
-               isAuthorValid(details) &&
-               isYearPublishedValid(details);
+                isTitleValid(details) &&
+                isAuthorValid(details) &&
+                isYearPublishedValid(details);
     }
 
     public String toString(MediaDetails details) {
         return details.getTitle()
-                    + ":\nPrice: " + isPriceValid(details)
-                    + ",\nTitle: " + isTitleValid(details)
-                    + ",\nAuthor: " + isAuthorValid(details)
-                    + ",\nYear: " + isYearPublishedValid(details);
+                + ":\nPrice: " + isPriceValid(details)
+                + ",\nTitle: " + isTitleValid(details)
+                + ",\nAuthor: " + isAuthorValid(details)
+                + ",\nYear: " + isYearPublishedValid(details);
     }
 }
