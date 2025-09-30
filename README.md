@@ -61,28 +61,10 @@ Total: $40.77
 
 ## Class Diagram and Code Review
 
-### Before → After (architecture)
-```
-flowchart LR
-  subgraph Before
-    BZ[Bookazon\n(Stores, Updates,\nValidates, Prints)]
-  end
+![UML Overview](docs/uml-after.png)
 
-  subgraph After
-    MI[«interface» MediaItem] --> Bk[Book]
-    MI --> Au[Audiobook]
-    MI --> Dvd[DVD]
-    MI --> Eb[E-book]
+<sub>[Open full-size diagram](docs/uml-after.png) • [Source file (draw.io)](docs/uml-after.drawio)</sub>
 
-    Or[Order] --> Sub[Subscription\napplyTo(subtotal)]
-    Or --> Price[PricingPolicy]
-    Pr[ConsoleOrderPrinter] --> Or
-
-    Val[MediaValidator] -.used by.-> MI
-  end
-
-  BZ ==refactor==> After
-```
 ---
 
 ## SOLID Principles, Code Smells, and Technical Debt
