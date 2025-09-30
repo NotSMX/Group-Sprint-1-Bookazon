@@ -63,7 +63,9 @@ Total: $40.77
 
 ![UML Overview](UML_after.png)
 
-<sub>[Open full-size diagram](UML_after.png) • [Source file (draw.io)](UML_after.drawio)</sub>
+<sub>[Open full-size diagram](UML_after.png)
+
+Link to the Google Drawing: https://docs.google.com/drawings/d/1raz7W154k8HTIfWpvqwkp4DcXrt_aSxsfeZqA4z2jBg/edit?usp=sharing
 
 ---
 
