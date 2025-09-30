@@ -1,9 +1,10 @@
 public class DVDDetails extends MediaDetails {
 
-    private int runtimeMinutes;  // DVD-specific
-    private String regionCode;   // optional
+    private int runtimeMinutes; // DVD-specific
+    private String regionCode; // optional
 
-    public DVDDetails(Title title, Author author, YearPublished yearPublished, Price price, int runtimeMinutes, String regionCode) {
+    public DVDDetails(Title title, Author author, YearPublished yearPublished, Price price, int runtimeMinutes,
+            String regionCode) {
         super(title, author, yearPublished, price);
         this.runtimeMinutes = runtimeMinutes;
         this.regionCode = regionCode;
@@ -28,7 +29,7 @@ public class DVDDetails extends MediaDetails {
     @Override
     public String toString() {
         return super.toString() + "\n" +
-               "Runtime: " + runtimeMinutes + " mins\n" +
-               "Region: " + regionCode;
+                "Runtime: " + runtimeMinutes + " mins\n" +
+                "Region: " + regionCode;
     }
 }

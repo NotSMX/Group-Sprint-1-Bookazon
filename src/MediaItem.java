@@ -25,8 +25,8 @@ public abstract class MediaItem {
 
     public String validationReport() {
         String title = (details.getTitle() != null)
-            ? details.getTitle().getValue()
-            : "(untitled)";
+                ? details.getTitle().getValue()
+                : "(untitled)";
         return title + ": " + (isValid() ? "valid" : "invalid");
     }
 

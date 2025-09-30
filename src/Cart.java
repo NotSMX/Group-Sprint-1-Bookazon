@@ -15,10 +15,7 @@ public class Cart {
     }
 
     public boolean validateItem(MediaItem media, int quantity) {
-        if (media == null || quantity < 0) {
-            return false;
-        }
-        return true;
+        return !(media == null || quantity < 0);
     }
 
     public void removeItem(CartItem item) {
@@ -29,9 +26,7 @@ public class Cart {
     }
 
     private boolean validateRemove(CartItem item) {
-        if (item == null) {
-            return false;
-        } return true;
+        return item != null;
     }
 
     public void updateQuantity(CartItem item, int quantity) {
@@ -43,7 +38,10 @@ public class Cart {
         }
     }
 
-    /** Encapsulated remover to avoid mutating the list via getItems() while iterating */
+    /**
+     * Encapsulated remover to avoid mutating the list via getItems() while
+     * iterating
+     */
     public void removeByProductName(String name) {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getName().equals(name)) {

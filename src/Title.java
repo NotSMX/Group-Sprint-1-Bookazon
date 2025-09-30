@@ -9,10 +9,7 @@ public class Title {
     }
 
     private boolean validateTitle(String title) {
-        if (title == null || title.isEmpty()) {
-            return false;
-        }
-        return true;
+        return !(title == null || title.isEmpty());
     }
 
     public String getValue() {

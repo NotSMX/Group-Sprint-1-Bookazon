@@ -18,6 +18,6 @@ public class AudioBookDetails extends MediaDetails {
     @Override
     public String toString() {
         return super.toString() + "\n" +
-               "Duration: " + durationMinutes + " mins";
+                "Duration: " + durationMinutes + " mins";
     }
 }

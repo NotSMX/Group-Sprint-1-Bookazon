@@ -10,10 +10,7 @@ public class YearPublished {
     }
 
     private boolean validateYear(int year) {
-        if (year <= 0 || year >= (currentYear + 1)) {
-            return false;
-        }
-        return true;
+        return !(year <= 0 || year >= (currentYear + 1));
     }
 
     public int getValue() {

@@ -8,11 +8,8 @@ public class Price {
         this.cost = cost;
     }
 
-    private boolean validateCost (double cost) {
-        if (cost <= 0) {
-            return false;
-        }
-        return true;
+    private boolean validateCost(double cost) {
+        return cost > 0;
     }
 
     public double getValue() {
