@@ -38,7 +38,7 @@ We took a small online bookstore and turned it into a cleaner, extensible system
 - **Catalog supports more than books**: Audiobooks, DVDs, and E-books under a common `MediaItem`.
 - Responsibilities were separated so **domain code doesn’t print** and **validation doesn’t leak**.
 
-### TL;DR demo (console)
+### Example Output from the Terminal (console)
 === Order Summary ===
 Items: 3
 Subtotal: $47.97
@@ -46,15 +46,15 @@ Discount (gold 15%): -$7.20
 Total: $40.77
 
 ---
-
+```
  /\_/\  
 ( o.o ) 
  > ^ <
-
+```
 
 ## Repository Management
 - Forked the starter repo and added all collaborators.
-- Worked in **feature branches** per issue (e.g., `feat/discount-print`, `refactor/bookazon-view`).
+- Worked in **feature branches** for each issue (ex. `feat/discount-print`, `refactor/bookazon-view`).
 - Every change merged via **PR + review**; main/development stayed green.
 
 ---
@@ -62,7 +62,7 @@ Total: $40.77
 ## Class Diagram and Code Review
 
 ### Before → After (architecture)
-```mermaid
+```
 flowchart LR
   subgraph Before
     BZ[Bookazon\n(Stores, Updates,\nValidates, Prints)]
@@ -82,7 +82,7 @@ flowchart LR
   end
 
   BZ ==refactor==> After
-  
+```
 ---
 
 ## SOLID Principles, Code Smells, and Technical Debt
