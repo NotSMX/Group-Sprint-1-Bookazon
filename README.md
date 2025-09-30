@@ -1,5 +1,6 @@
 # Group Sprint 1: Bookazon
-<div align="center">
+
+
 ```
 
 ███████╗██████╗ ██████╗ ██████╗ ██╗   ██╗ ██████████╗
@@ -17,7 +18,6 @@
                               ██████
 
 ```
-</div>
 
 
 An assignment for redesigning software and refactoring code smells. Part of Software Engineering class CS321, fall 2025.
@@ -34,7 +34,6 @@ An assignment for redesigning software and refactoring code smells. Part of Soft
 
 ## Overview
 We took a small online bookstore and turned it into a cleaner, extensible system. The headline features this sprint:
-
 - **Order printouts show discount details** (tier, % off, amount, final total).
 - **Catalog supports more than books**: Audiobooks, DVDs, and E-books under a common `MediaItem`.
 - Responsibilities were separated so **domain code doesn’t print** and **validation doesn’t leak**.
@@ -46,8 +45,12 @@ Subtotal: $47.97
 Discount (gold 15%): -$7.20
 Total: $40.77
 
-
 ---
+
+ /\_/\  
+( o.o ) 
+ > ^ <
+
 
 ## Repository Management
 - Forked the starter repo and added all collaborators.
